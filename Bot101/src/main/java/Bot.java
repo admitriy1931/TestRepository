@@ -27,7 +27,7 @@ public class Bot extends TelegramLongPollingBot
 {
     private final String BOT_NAME;
     private final String BOT_TOKEN;
-    
+
     public Bot(String bot_name, String bot_token)
     {
         super();
@@ -49,7 +49,6 @@ public class Bot extends TelegramLongPollingBot
             e.printStackTrace();
         }
     }
-
 /*
     @Override
     public void onUpdateReceived(Update update)
@@ -85,10 +84,10 @@ public class Bot extends TelegramLongPollingBot
             if (message.getText().equals("/help"))
                 sendMsg(message, "Привет, я робот");
             else if (message.getText().equals("/about"))
-                sendMsg(message, "Бот для telegram написанный на java. " +
+                sendMsg(message, "Бот для Telegram, написанный на java. " +
                         "Комманда разработки: Агафонов Дмитрий, Сливный Артём");
             else
-                sendMsg(message, "Я не знаю что ответить на это");
+                sendMsg(message, "Я не знаю, что тебе ответить");
         }
     }
 
@@ -118,7 +117,7 @@ public class Bot extends TelegramLongPollingBot
     @Override
     public String getBotToken()
     {
-        return "lyaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        return "kjhgfdsfghjkhbgj";
     }
 
     @Override
@@ -127,3 +126,4 @@ public class Bot extends TelegramLongPollingBot
         super.onClosing();
     }
 }
+
