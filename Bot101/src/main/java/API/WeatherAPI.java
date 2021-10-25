@@ -10,7 +10,7 @@ import java.net.URLConnection;
 
 
 public class WeatherAPI {
-    public static  String GetWeatherString(String adress){
+    public static String GetWeatherString(String adress) {
 
         try {
             var urlAdress = new URL(adress);
@@ -20,7 +20,7 @@ public class WeatherAPI {
             String line;
 
             while ((line = bufferedReader.readLine()) != null)
-                buffer.append(line + "\n");
+                buffer.append(line).append("\n");
             bufferedReader.close();
             return buffer.toString();
         } catch (Exception e) {
@@ -29,37 +29,29 @@ public class WeatherAPI {
         }
 
     }
+
     public static String GetContent(String city) {
-        var getUserCity = city;
-        var adress = "http://api.openweathermap.org/data/2.5/weather?q=" + getUserCity + "&appid=0b906e32b1ec09ac418edf018294b72a&units=metric";
-        return GetWeatherString(adress);
+        var address = "http://api.openweathermap.org/data/2.5/weather?q=" + city +
+                "&appid=0b906e32b1ec09ac418edf018294b72a&units=metric";
+        return GetWeatherString(address);
     }
 
     public static String GetContent(String inputLat, String inputLon) {
-        var lat = inputLat;
-        var lon = inputLon;
-        var adress = "http://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=0b906e32b1ec09ac418edf018294b72a&units=metric";
-        return GetWeatherString(adress);
+        var address = "http://api.openweathermap.org/data/2.5/onecall?lat=" + inputLat + "&lon=" +
+                inputLon + "&appid=0b906e32b1ec09ac418edf018294b72a&units=metric";
+        return GetWeatherString(address);
 
     }
-    public static String GetContentLoc(Double inputLat, Double inputLon) {
-        var lat = inputLat;
-        var lon = inputLon;
-        var adress = "http://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=0b906e32b1ec09ac418edf018294b72a&units=metric";
-        return GetWeatherString(adress);
 
-    }
     public static String GetContentId(String idOfCity) {
-        var id = idOfCity;
-        var adress = "http://api.openweathermap.org/data/2.5/weather?id=" + id + "&appid=ece85b2e3f0fb126a238a176a7fe3925";
-                                                                                         //ece85b2e3f0fb126a238a176a7fe3925
-        return GetWeatherString(adress);
+        var address = "http://api.openweathermap.org/data/2.5/weather?id=" + idOfCity +
+                "&appid=ece85b2e3f0fb126a238a176a7fe3925";
+        return GetWeatherString(address);
     }
-    public static String GetContentInd(String ind, String countryCode){
 
-        var index = ind;
-        var country = countryCode;
-        var adress = "http://api.openweathermap.org/data/2.5/weather?zip=" + index + "," + country + "&appid=0b906e32b1ec09ac418edf018294b72a&units=metric";
-        return GetWeatherString(adress);
+    public static String GetContentInd(String ind, String countryCode) {
+        var address = "http://api.openweathermap.org/data/2.5/weather?zip=" + ind + "," +
+                countryCode + "&appid=0b906e32b1ec09ac418edf018294b72a&units=metric";
+        return GetWeatherString(address);
     }
 }

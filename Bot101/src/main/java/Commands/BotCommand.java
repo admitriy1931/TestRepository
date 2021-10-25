@@ -1,7 +1,6 @@
 package Commands;
 
-public interface BotCommand
-{
+public interface BotCommand {
     String returnAnswer(String string);
 }
 

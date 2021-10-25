@@ -5,22 +5,22 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.List;
 
-public class WeatherIndCommand implements BotCommand{
+public class WeatherIndCommand implements BotCommand {
     @Override
     public String returnAnswer(String input) {
-        return printAboutWeather(input.split("_")[1],input.split("_")[2]);
+        return printAboutWeather(input.split("_")[1], input.split("_")[2]);
     }
 
-    private static String printAboutWeather(String ind, String countryCode){
+    private static String printAboutWeather(String ind, String countryCode) {
         var result = JSONParser(API.WeatherAPI.GetContentInd(ind, countryCode));
         StringBuilder output = new StringBuilder();
-        for(String el : result)
-        {
+        for (String el : result) {
             output.append(el).append(System.lineSeparator());
         }
         System.out.println(output);
         return output.toString();
     }
+
     private static List<String> JSONParser(String inputResult) {
         System.out.println(inputResult);
         var jsonObj = new JSONObject(inputResult);

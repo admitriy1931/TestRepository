@@ -1,16 +1,4 @@
 import org.junit.jupiter.api.Test;
-import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.api.methods.send.SendMessage;
-import org.telegram.telegrambots.api.objects.Message;
-import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.bots.TelegramLongPollingBot;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
-import org.telegram.telegrambots.ApiContextInitializer;
-import org.telegram.telegrambots.TelegramBotsApi;
-
-import java.security.MessageDigest;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -45,10 +33,10 @@ class BotTest{
                 "clouds: " + System.lineSeparator() +
                 "87.0";
         var answ4 ="Я не знаю, что тебе ответить, ты ввел неправильную комманду";;
-//        assertEquals(new Bot().getAnswerToCommand("/help"), answ1);
-//        assertEquals(new Bot().getAnswerToCommand("/about"),answ2);
-//        //assertEquals(new Bot().getAnswerToCommand("/weather"),answ3);
-//        assertEquals(new Bot().getAnswerToCommand("/kfjgh"),answ4);
+//        assertEquals(new Bot.Bot().getAnswerToCommand("/help"), answ1);
+//        assertEquals(new Bot.Bot().getAnswerToCommand("/about"),answ2);
+//        //assertEquals(new Bot.Bot().getAnswerToCommand("/weather"),answ3);
+//        assertEquals(new Bot.Bot().getAnswerToCommand("/kfjgh"),answ4);
     }
     @Test
     void getBotUsername() {
@@ -57,7 +45,7 @@ class BotTest{
 
     @Test
     void getBotToken() {
-//        assertEquals(new Bot().getBotToken(), kkkkkkkkkkkkkkk);
+//        assertEquals(new Bot.Bot().getBotToken(), kkkkkkkkkkkkkkk);
         /*
         Мысль относительно этого теста: надо вычислить sha-256 от нашего токена и проверять его в сравнении с
         sha-256, поданным на вход
