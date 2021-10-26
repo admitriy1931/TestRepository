@@ -10,21 +10,12 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 
+import java.util.Arrays;
+import java.util.HashMap;
+
 
 public class Bot extends TelegramLongPollingBot {
-    //private final String BOT_NAME;
-    //private final String BOT_TOKEN;
-
-    /*
-        public Bot(String bot_name, String bot_token) {
-            super();
-            //this.BOT_NAME = bot_name;
-            //this.BOT_TOKEN = bot_token;
-        }
-    */
     public Bot() {
-        //this.BOT_NAME = "";
-        //this.BOT_TOKEN = "";
     }
 
     public static void main(String[] args) {
@@ -44,7 +35,27 @@ public class Bot extends TelegramLongPollingBot {
             var location = message.getLocation();
             var lat = location.getLatitude();
             var lon = location.getLongitude();
-            sendMsg(message, new WeatherCordCommand().returnAnswerToLocation(lat.toString(), lon.toString()));
+            var commandResult = new WeatherCordCommand().returnAnswerToLocation(lat.toString(), lon.toString());
+            var splitAnswer = commandResult.split(System.lineSeparator());
+
+            var icon = splitAnswer[splitAnswer.length-1];
+            var isFindIcon = icon.length() == 3;
+
+            if (isFindIcon) {
+                splitAnswer = Arrays.copyOf(splitAnswer, splitAnswer.length-2);
+                SendPhoto sendPhotoRequest = new SendPhoto();
+                sendPhotoRequest.setChatId(message.getChatId().toString());
+                var photoURL = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
+                sendPhotoRequest.setPhoto(photoURL);
+                try {
+                    sendPhoto(sendPhotoRequest);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
+            sendMsg(message, messageTextResult);
         } else {
             if (message != null && message.hasText()) {
                 var messageText = message.getText();
@@ -60,6 +71,7 @@ public class Bot extends TelegramLongPollingBot {
         var commandTable = CommandTable.getTable();
         if (commandTable.containsKey(messageText.split("_")[0])) {
             var answerDic = CommandTable.getItem(commandTable, messageText);
+
             if (answerDic.containsKey("icon")) {
                 SendPhoto sendPhotoRequest = new SendPhoto();
                 sendPhotoRequest.setChatId(message.getChatId().toString());
@@ -71,6 +83,7 @@ public class Bot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
+
             answer = answerDic.get("result");
 
         } else if (messageText.indexOf('/') != -1)
@@ -101,7 +114,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "овдпмоывдмоыдомдыловжфло";
+        return "ыоврапоыврапопыоапорп";
     }
 
     @Override
