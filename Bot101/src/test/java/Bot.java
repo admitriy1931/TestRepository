@@ -5,7 +5,6 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
-import org.telegram.telegrambots.exceptions.TelegramApiException;
 /*
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Message;
@@ -21,7 +20,6 @@ import ru.taksebe.telegram.mentalCalculation.telegram.commands.service.StartComm
 import ru.taksebe.telegram.mentalCalculation.telegram.nonCommand.NonCommand;
 import ru.taksebe.telegram.mentalCalculation.telegram.nonCommand.Settings;
 */
-import java.util.List;
 
 public class Bot extends TelegramLongPollingBot
 {
@@ -118,7 +116,7 @@ public class Bot extends TelegramLongPollingBot
     @Override
     public String getBotToken()
     {
-        return "lyaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        return "1987090518:AAFbMTQ6R1HEfQh91RoPSCZ2Ee93HcRl5x8";
     }
 
     @Override

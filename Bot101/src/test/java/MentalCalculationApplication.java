@@ -9,8 +9,8 @@ public class MentalCalculationApplication {
 
     public static void main(String[] args) {
         ApiContextInitializer.init();
+        TelegramBotsApi botsApi = new TelegramBotsApi();
         try {
-            TelegramBotsApi botsApi = new TelegramBotsApi();
             botsApi.registerBot(new Bot(getenv.get("BOT_NAME"), getenv.get("BOT_TOKEN")));
         } catch (TelegramApiException e) {
             e.printStackTrace();
