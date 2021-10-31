@@ -30,6 +30,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         var message = update.getMessage();
         if (message.hasLocation()) {
             var location = message.getLocation();
@@ -114,7 +115,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotToken() {
-        return "ыоврапоыврапопыоапорп";
+        return "aaaa";
     }
 
     @Override

@@ -42,6 +42,7 @@ public class CommandTable {
         resDict.put("result", messageTextResult);
         if (isFindIcon)
             resDict.put("icon", icon);
+        //System.out.println(resDict);
         return resDict;
     }
 }

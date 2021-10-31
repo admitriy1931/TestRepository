@@ -25,7 +25,8 @@ public class WeatherCordCommand implements BotCommand {
         return printAboutWeather(lat, lon);
     }
 
-    private static List<String> JSONAnalyzer(String inputResult) {
+    public static List<String> JSONAnalyzer(String inputResult) {
+        System.out.print(inputResult);
         var jsonObj = new JSONObject(inputResult);
         var temp = ("" + jsonObj.getJSONObject("current").getDouble("temp"));
         var pressure = ("" + jsonObj.getJSONObject("current").getDouble("pressure"));
