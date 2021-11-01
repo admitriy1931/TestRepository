@@ -70,7 +70,7 @@ public class Bot extends TelegramLongPollingBot {
         String answer;
 
         var commandTable = CommandTable.getTable();
-        if (commandTable.containsKey(messageText.split("_")[0])) {
+        if (commandTable.containsKey(messageText.split(" ")[0])) {
             var answerDic = CommandTable.getItem(commandTable, messageText);
 
             if (answerDic.containsKey("icon")) {
