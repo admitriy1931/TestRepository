@@ -8,7 +8,7 @@ import java.util.List;
 public class WeatherIdCommand implements BotCommand {
     @Override
     public String returnAnswer(String input) {
-        return printAboutWeather(input.split("_")[1]);
+        return printAboutWeather(input.split(" ")[1]);
     }
 
     private static String printAboutWeather(String id) {

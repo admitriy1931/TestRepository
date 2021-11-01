@@ -12,9 +12,9 @@ public class WeatherCommand implements BotCommand {
     @Override
     public String returnAnswer(String input) {
         String[] split;
-        if (input.indexOf('_') == -1)
+        if (input.indexOf(' ') == -1)
             return "Пожалуйста, введите комманду в виде комманду в правильном варианте";
-        split = input.split("_");
+        split = input.split(" ");
         if (split.length != 2)
             return "В комманду передано неправильное количество аргументов";
         return printAboutWeather(split[1]);
