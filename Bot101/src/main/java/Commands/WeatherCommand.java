@@ -29,7 +29,6 @@ public class WeatherCommand implements BotCommand {
         for (String el : result) {
             output.append(el).append(System.lineSeparator());
         }
-        //System.out.print(output.toString());
         return output.toString();
     }
 

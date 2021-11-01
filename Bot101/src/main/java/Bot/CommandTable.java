@@ -22,13 +22,10 @@ public class CommandTable {
         commandDic.put("/weatherCord", new WeatherCordCommand());
         commandDic.put("/weatherId", new WeatherIdCommand());
         commandDic.put("/weatherInd", new WeatherIndCommand());
-        //commandDic.put("/weatherLoc", new WeatherLocCommand());
-        //commandDic.put("/weatherLoc", new WeatherLocCommand(lat, lon));
-
         return commandDic;
     }
 
-    public static HashMap<String, String> getItem(HashMap commandTable,
+    public static ResItem getItem(HashMap commandTable,
                                                   String messageText) {
         var result = (BotCommand) commandTable.get(messageText.split(" ")[0]);
         var resultAnswer = result.returnAnswer(messageText);
@@ -38,11 +35,6 @@ public class CommandTable {
         if (isFindIcon)
             splitAnswer = Arrays.copyOf(splitAnswer, splitAnswer.length-2);
         String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
-        var resDict = new HashMap<String, String>();
-        resDict.put("result", messageTextResult);
-        if (isFindIcon)
-            resDict.put("icon", icon);
-        //System.out.println(resDict);
-        return resDict;
+        return new ResItem(isFindIcon, messageTextResult, icon);
     }
 }

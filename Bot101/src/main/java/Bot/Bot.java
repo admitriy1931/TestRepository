@@ -10,6 +10,7 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 
+import javax.validation.constraints.Null;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -73,10 +74,10 @@ public class Bot extends TelegramLongPollingBot {
         if (commandTable.containsKey(messageText.split(" ")[0])) {
             var answerDic = CommandTable.getItem(commandTable, messageText);
 
-            if (answerDic.containsKey("icon")) {
+            if (answerDic.Icon != null) {
                 SendPhoto sendPhotoRequest = new SendPhoto();
                 sendPhotoRequest.setChatId(message.getChatId().toString());
-                var photoURL = "http://openweathermap.org/img/wn/" + answerDic.get("icon") + "@2x.png";
+                var photoURL = "http://openweathermap.org/img/wn/" + answerDic.Icon + "@2x.png";
                 sendPhotoRequest.setPhoto(photoURL);
                 try {
                     sendPhoto(sendPhotoRequest);
@@ -84,9 +85,7 @@ public class Bot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
-
-            answer = answerDic.get("result");
-
+            answer = answerDic.Result;
         } else if (messageText.indexOf('/') != -1)
             answer = "Я не знаю, что тебе ответить, ты ввел неправильную комманду";
         else
