@@ -18,7 +18,6 @@ public class WeatherAPI {
             var bufferedReader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
             var buffer = new StringBuffer();
             String line;
-
             while ((line = bufferedReader.readLine()) != null)
                 buffer.append(line).append("\n");
             bufferedReader.close();

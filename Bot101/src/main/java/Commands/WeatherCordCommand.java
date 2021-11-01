@@ -8,8 +8,8 @@ import java.util.List;
 public class WeatherCordCommand implements BotCommand {
     @Override
     public String returnAnswer(String input) {
-        return printAboutWeather(input.split("_")[1],
-                input.split("_")[2]);
+        return printAboutWeather(input.split(" ")[1],
+                input.split(" ")[2]);
     }
 
     private static String printAboutWeather(String lat, String lon) {
@@ -25,7 +25,8 @@ public class WeatherCordCommand implements BotCommand {
         return printAboutWeather(lat, lon);
     }
 
-    private static List<String> JSONAnalyzer(String inputResult) {
+    public static List<String> JSONAnalyzer(String inputResult) {
+        System.out.print(inputResult);
         var jsonObj = new JSONObject(inputResult);
         var temp = ("" + jsonObj.getJSONObject("current").getDouble("temp"));
         var pressure = ("" + jsonObj.getJSONObject("current").getDouble("pressure"));
