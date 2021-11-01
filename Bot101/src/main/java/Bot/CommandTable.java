@@ -30,7 +30,7 @@ public class CommandTable {
 
     public static HashMap<String, String> getItem(HashMap commandTable,
                                                   String messageText) {
-        var result = (BotCommand) commandTable.get(messageText.split(" ")[0]);
+        var result = (BotCommand) commandTable.get(messageText.split("_")[0]);
         var resultAnswer = result.returnAnswer(messageText);
         var splitAnswer = resultAnswer.split(System.lineSeparator());
         var icon = splitAnswer[splitAnswer.length-1];

@@ -8,8 +8,8 @@ import java.util.List;
 public class WeatherCordCommand implements BotCommand {
     @Override
     public String returnAnswer(String input) {
-        return printAboutWeather(input.split(" ")[1],
-                input.split(" ")[2]);
+        return printAboutWeather(input.split("_")[1],
+                input.split("_")[2]);
     }
 
     private static String printAboutWeather(String lat, String lon) {
