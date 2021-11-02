@@ -1,12 +1,10 @@
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.databind.introspect.JacksonAnnotationIntrospector;
-import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
-import org.json.JSONObject;
-import org.json.JSONString;
-import org.json.JSONWriter;
 import org.junit.jupiter.api.Test;
-import Bot.*;
-import Commands.*;
+import bot.CommandTable;
+import bot.Bot;
+import commands.WeatherIdCommand;
+import commands.WeatherIndCommand;
+import commands.WeatherCommand;
+import commands.WeatherCordCommand;
 import org.telegram.telegrambots.api.objects.Message;
 
 import java.util.Arrays;
@@ -20,7 +18,9 @@ class BotTest{
     void getRightSimpleAnswer() {
         var answer1 = "Привет, я робот! Я умею рассказать о себе по комманде /about, " +
                 "а еще могу вернуть погоду, для этого введи /weather" +
-                " пожалуйста, указывайте город английскими буквами";
+                " пожалуйста, указывайте город английскими буквами"+
+                "Ну а если тебе нужен быстрый результат, скинь свою геоокацию в чат со мной," +
+                "я выведу погоду по твоему местоположению)";
         var answer2 = "Я - Бот для Telegram, написанный на java. " +
                 "Комманда разработки: Агафонов Дмитрий, Сливный Артём";
         var answer3 = "Я не знаю, что тебе ответить, ты ввел неправильную комманду";
@@ -75,6 +75,6 @@ class BotTest{
     @Test
     void getBotToken() {
         var testBot = new Bot();
-       assertEquals(testBot.getBotToken(), "aaaaa");
+       assertEquals(testBot.getBotToken(), "aaaa");
     }
 }
