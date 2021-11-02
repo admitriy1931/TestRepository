@@ -1,10 +1,15 @@
-package Bot;
+package bot;
 
-import Commands.*;
+import commands.WeatherCordCommand;
+import commands.BotCommand;
+import commands.HelpCommand;
+import commands.AboutCommand;
+import commands.WeatherIndCommand;
+import commands.WeatherIdCommand;
+import commands.WeatherCommand;
 
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 
 public class CommandTable {
     private static final HashMap Table = constructHashMap();
@@ -26,14 +31,14 @@ public class CommandTable {
     }
 
     public static ResItem getItem(HashMap commandTable,
-                                                  String messageText) {
+                                  String messageText) {
         var result = (BotCommand) commandTable.get(messageText.split(" ")[0]);
         var resultAnswer = result.returnAnswer(messageText);
         var splitAnswer = resultAnswer.split(System.lineSeparator());
-        var icon = splitAnswer[splitAnswer.length-1];
+        var icon = splitAnswer[splitAnswer.length - 1];
         var isFindIcon = icon.length() == 3;
         if (isFindIcon)
-            splitAnswer = Arrays.copyOf(splitAnswer, splitAnswer.length-2);
+            splitAnswer = Arrays.copyOf(splitAnswer, splitAnswer.length - 2);
         String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
         return new ResItem(isFindIcon, messageTextResult, icon);
     }

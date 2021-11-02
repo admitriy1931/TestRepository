@@ -1,12 +1,9 @@
-package API;
-
-import org.telegram.telegrambots.generics.LongPollingBot;
+package api;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
 
 
 public class WeatherAPI {
@@ -26,7 +23,6 @@ public class WeatherAPI {
             System.out.println("ERROR");
             return "Нет такого города";
         }
-
     }
 
     public static String GetContent(String city) {
@@ -44,7 +40,7 @@ public class WeatherAPI {
 
     public static String GetContentId(String idOfCity) {
         var address = "http://api.openweathermap.org/data/2.5/weather?id=" + idOfCity +
-                "&appid=ece85b2e3f0fb126a238a176a7fe3925";
+                "&appid=ece85b2e3f0fb126a238a176a7fe3925&units=metric";
         return GetWeatherString(address);
     }
 

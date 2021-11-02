@@ -1,4 +1,4 @@
-package Commands;
+package commands;
 
 import org.json.JSONObject;
 
@@ -13,7 +13,7 @@ public class WeatherCordCommand implements BotCommand {
     }
 
     private static String printAboutWeather(String lat, String lon) {
-        var result = JSONAnalyzer(API.WeatherAPI.GetContent(lat, lon));
+        var result = JSONAnalyzer(api.WeatherAPI.GetContent(lat, lon));
         StringBuilder output = new StringBuilder();
         for (String el : result) {
             output.append(el).append(System.lineSeparator());
@@ -26,7 +26,6 @@ public class WeatherCordCommand implements BotCommand {
     }
 
     public static List<String> JSONAnalyzer(String inputResult) {
-        System.out.print(inputResult);
         var jsonObj = new JSONObject(inputResult);
         var temp = ("" + jsonObj.getJSONObject("current").getDouble("temp"));
         var pressure = ("" + jsonObj.getJSONObject("current").getDouble("pressure"));

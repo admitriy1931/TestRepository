@@ -1,4 +1,4 @@
-package Commands;
+package commands;
 
 import org.json.JSONObject;
 
@@ -12,7 +12,7 @@ public class WeatherIndCommand implements BotCommand {
     }
 
     private static String printAboutWeather(String ind, String countryCode) {
-        var result = JSONParser(API.WeatherAPI.GetContentInd(ind, countryCode));
+        var result = JSONParser(api.WeatherAPI.GetContentInd(ind, countryCode));
         StringBuilder output = new StringBuilder();
         for (String el : result) {
             output.append(el).append(System.lineSeparator());
@@ -21,7 +21,6 @@ public class WeatherIndCommand implements BotCommand {
     }
 
     public static List<String> JSONParser(String inputResult) {
-        System.out.println(inputResult);
         var jsonObj = new JSONObject(inputResult);
         var temp = ("" + jsonObj.getJSONObject("main").getDouble("temp"));
 

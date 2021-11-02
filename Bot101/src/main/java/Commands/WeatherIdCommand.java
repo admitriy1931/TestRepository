@@ -1,4 +1,4 @@
-package Commands;
+package commands;
 
 import org.json.JSONObject;
 
@@ -12,7 +12,7 @@ public class WeatherIdCommand implements BotCommand {
     }
 
     private static String printAboutWeather(String id) {
-        var result = JSONParser(API.WeatherAPI.GetContentId(id));
+        var result = JSONParser(api.WeatherAPI.GetContentId(id));
         StringBuilder output = new StringBuilder();
         for (String el : result) {
             output.append(el).append(System.lineSeparator());
@@ -21,11 +21,8 @@ public class WeatherIdCommand implements BotCommand {
     }
 
     public static List<String> JSONParser(String inputResult) {
-        System.out.println(inputResult);
         var jsonObj = new JSONObject(inputResult);
         var temp = ("" + jsonObj.getJSONObject("main").getDouble("temp"));
-        //var tempMax = ("" + jsonObj.getJSONObject("main").getDouble("temp_max"));
-        //var tempMin = ("" + jsonObj.getJSONObject("main").getDouble("temp_min"));
         var pressure = ("" + jsonObj.getJSONObject("main").getDouble("pressure"));
         var clouds = ("" + jsonObj.getJSONObject("clouds").getDouble("all"));
         var icon = ("" + jsonObj.getJSONArray("weather").getJSONObject(0).getString("icon"));

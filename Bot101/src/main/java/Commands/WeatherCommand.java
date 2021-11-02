@@ -1,10 +1,7 @@
-package Commands;
+package commands;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 
-import java.io.StringReader;
-import java.io.StringWriter;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,7 +18,7 @@ public class WeatherCommand implements BotCommand {
     }
 
     public static String printAboutWeather(String city) {
-        String content = API.WeatherAPI.GetContent(city);
+        String content = api.WeatherAPI.GetContent(city);
         if (content.equals("Нет такого города"))
             return content;
         var result = JSONParser(content);
@@ -33,7 +30,6 @@ public class WeatherCommand implements BotCommand {
     }
 
     public static List<String> JSONParser(String inputResult) {
-        //System.out.print(inputResult);
         var jsonObj = new JSONObject(inputResult);
         var temp = ("" + jsonObj.getJSONObject("main").getDouble("temp"));
         var tempMax = ("" + jsonObj.getJSONObject("main").getDouble("temp_max"));
