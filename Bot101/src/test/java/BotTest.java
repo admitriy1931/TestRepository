@@ -78,6 +78,6 @@ class BotTest {
     @Test
     void getBotToken() {
         var testBot = new Bot();
-        assertEquals(testBot.getBotToken(), "aaaa");
+        assertEquals(testBot.getBotToken(), "aasadaa");
     }
 }
