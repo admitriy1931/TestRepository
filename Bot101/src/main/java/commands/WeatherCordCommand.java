@@ -4,17 +4,17 @@ import org.json.JSONObject;
 
 public class WeatherCordCommand implements BotCommand {
     @Override
-    public String returnAnswer(String input) {
+    public ParserOutput returnAnswer(String input) {
         return printAboutWeather(input.split(" ")[1],
                 input.split(" ")[2]);
     }
 
-    private static String printAboutWeather(String lat, String lon) {
+    private static ParserOutput printAboutWeather(String lat, String lon) {
         var result = JSONParser(api.WeatherAPI.GetContent(lat, lon));
-        return result.FormOutput();
+        return result.FormParserOutput();
     }
 
-    public String returnAnswerToLocation(String lat, String lon) {
+    public ParserOutput returnAnswerToLocation(String lat, String lon) {
         return printAboutWeather(lat, lon);
     }
 

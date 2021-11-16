@@ -4,23 +4,23 @@ import org.json.JSONObject;
 
 public class WeatherCommand implements BotCommand {
     @Override
-    public String returnAnswer(String input) {
+    public ParserOutput returnAnswer(String input) {
         String[] split;
         if (input.indexOf(' ') == -1)
-            return "Пожалуйста, введите комманду в виде комманду в правильном варианте";
+            return new ParserOutput("Пожалуйста, введите комманду в виде комманду в правильном варианте");
         split = input.split(" ");
         if (split.length != 2)
-            return "В комманду передано неправильное количество аргументов";
+            return new ParserOutput("В комманду передано неправильное количество аргументов");
         return printAboutWeather(split[1]);
     }
 
-    public static String printAboutWeather(String city) {
+    public static ParserOutput printAboutWeather(String city) {
 
         String content = api.WeatherAPI.GetContent(city);
         if (content.equals("Нет такого города"))
-            return content;
+            return new ParserOutput(content);
         var result = JSONParser(content);
-        return result.FormOutput();
+        return result.FormParserOutput();
     }
 
     public static JsonParserResult JSONParser(String inputResult) {
@@ -32,9 +32,5 @@ public class WeatherCommand implements BotCommand {
         var clouds = ("" + jsonObj.getJSONObject("clouds").getDouble("all"));
         var icon = ("" + jsonObj.getJSONArray("weather").getJSONObject(0).getString("icon"));
         return new JsonParserResult(temp, pressure, clouds, icon);
-        /*
-        return Arrays.asList("temp: ", temp, "tempMax: ", tempMax,
-                "tempMin: ", tempMin, "pressure: ", pressure, "clouds: ", clouds, "icon", icon);
-         */
     }
 }

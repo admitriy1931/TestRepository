@@ -1,5 +1,7 @@
 package commands;
 
+import advisor.Advisor;
+
 public class JsonParserResult {
     public String temp;
     public String pressure;
@@ -13,15 +15,20 @@ public class JsonParserResult {
         this.icon = icon;
     }
 
-    public String FormOutput() {
+    public ParserOutput FormParserOutput() {
 
-        return "temp: " + System.lineSeparator() +
-                this.temp + System.lineSeparator() +
-                "pressure: " + System.lineSeparator() +
-                this.pressure + System.lineSeparator() +
-                "clouds: " + System.lineSeparator() +
-                this.clouds + System.lineSeparator() +
-                "icon: " + System.lineSeparator() +
-                this.icon + System.lineSeparator();
+        var stringOutput =  "temp: " + System.lineSeparator() +
+                            this.temp + System.lineSeparator() +
+                            "pressure: " + System.lineSeparator() +
+                            this.pressure + System.lineSeparator() +
+                            "clouds: " + System.lineSeparator() +
+                            this.clouds + System.lineSeparator() +
+                            "icon: " + System.lineSeparator() +
+                            this.icon + System.lineSeparator();
+        var recommendation = Advisor.FormRecommendation(this);
+
+        var output = new ParserOutput(stringOutput, recommendation);
+        //return stringOutput;
+        return output;
     }
 }

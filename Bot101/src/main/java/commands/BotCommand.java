@@ -1,6 +1,6 @@
 package commands;
 
 public interface BotCommand {
-    String returnAnswer(String string);
+    ParserOutput returnAnswer(String string);
 }
 

@@ -4,13 +4,13 @@ import org.json.JSONObject;
 
 public class WeatherIdCommand implements BotCommand {
     @Override
-    public String returnAnswer(String input) {
+    public ParserOutput returnAnswer(String input) {
         return printAboutWeather(input.split(" ")[1]);
     }
 
-    private static String printAboutWeather(String id) {
+    private static ParserOutput printAboutWeather(String id) {
         var result = JSONParser(api.WeatherAPI.GetContentId(id));
-        return result.FormOutput();
+        return result.FormParserOutput();
     }
 
     public static JsonParserResult JSONParser(String inputResult) {
