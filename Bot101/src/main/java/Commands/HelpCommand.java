@@ -1,6 +1,6 @@
 package commands;
 
-public class HelpCommand implements BotCommand {
+public class HelpCommand implements SimpleBotCommand {
 
     @Override
     public String returnAnswer(String input) {

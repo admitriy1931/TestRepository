@@ -1,2 +1,6 @@
-package commands;public interface SimpleBotCommand {
+package commands;
+
+public interface SimpleBotCommand {
+    String returnAnswer(String string);
 }
+
