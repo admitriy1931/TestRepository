@@ -82,7 +82,8 @@ public class Bot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
 
-        } else {
+        }
+        else {
             if (message != null && message.hasText()) {
                 var messageText = message.getText();
                 sendMsg(message, getAnswerToCommand(messageText, message), update);
@@ -90,7 +91,6 @@ public class Bot extends TelegramLongPollingBot {
             }
 
         }
-
     }
 
 
@@ -133,10 +133,9 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.setChatId(message.getChatId().toString());
         sendMessage.setReplyToMessageId(message.getMessageId());
         sendMessage.setText(answer.stringOutput);
-        sendMsg(message, answer.recommendation);
-
-        //sendMessage.setReplyMarkup(InlineKeyBoardMessage(answer.recommendation));
-
+        sendMessage.setReplyMarkup(KeyBoardMessage());
+        //sendMsg(message, answer.recommendation);
+        //sendMessage.setReplyMarkup(KeyBoardMessage(answer.recommendation));
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
@@ -144,17 +143,17 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendMsg(Message message, String recommendation) {
-        SendMessage sendMessage = new SendMessage();
-        sendMessage.setChatId(message.getChatId().toString());
-        sendMessage.setReplyToMessageId(message.getMessageId());
-        sendMessage.setText(recommendation);
-        try {
-            execute(sendMessage);
-        } catch (TelegramApiException e) {
-            e.printStackTrace();
-        }
-    }
+//    private void sendMsg(Message message, String recommendation) {
+//        SendMessage sendMessage = new SendMessage();
+//        sendMessage.setChatId(message.getChatId().toString());
+//        sendMessage.setReplyToMessageId(message.getMessageId());
+//        sendMessage.setText(recommendation);
+//        try {
+//            execute(sendMessage);
+//        } catch (TelegramApiException e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     @Override
     /*
@@ -164,7 +163,7 @@ public class Bot extends TelegramLongPollingBot {
     */
 
     public String getBotUsername() {
-        return "weth_proj_bot";
+        return "DownloadAssistantBot";
     }
 
     @Override
@@ -183,21 +182,28 @@ public class Bot extends TelegramLongPollingBot {
         super.onClosing();
     }
 
-    public static InlineKeyboardMarkup InlineKeyBoardMessage(String recommendation) {
-        System.out.println(recommendation);
-        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-        InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
-        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-        inlineKeyboardButton1.setText("Рекомендации по погоде");
-
-        inlineKeyboardButton1.setCallbackData("Рекомендуем одеться потеплее");
-        //inlineKeyboardButton1.setCallbackData(recommendation);
-
-        keyboardButtonsRow1.add(inlineKeyboardButton1);
-
-        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-        rowList.add(keyboardButtonsRow1);
-        inlineKeyboardMarkup.setKeyboard(rowList);
-        return inlineKeyboardMarkup;
+    public static ReplyKeyboardMarkup KeyBoardMessage() {
+//        System.out.println(recommendation);
+        ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
+        KeyboardRow button = new KeyboardRow();
+        button.add("Рекомендации по погоде");
+        List<KeyboardRow> buttonList = new ArrayList<>();
+        buttonList.add(button);
+        markup.setKeyboard(buttonList);
+        return markup;
+//        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
+//        InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
+//        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
+//        inlineKeyboardButton1.setText("Рекомендации по погоде");
+//
+//        //inlineKeyboardButton1.setCallbackData("Рекомендуем одеться потеплее");
+//        inlineKeyboardButton1.setCallbackData(recommendation);
+//
+//        keyboardButtonsRow1.add(inlineKeyboardButton1);
+//
+//        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
+//        rowList.add(keyboardButtonsRow1);
+//        inlineKeyboardMarkup.setKeyboard(rowList);
+//        return inlineKeyboardMarkup;
     }
 }
