@@ -1,6 +1,6 @@
 package commands;
 
-public class HelpCommand implements  DialogAnswer{
+public class HelpReply implements DialogAnswer {
     @Override
     public String getContent() {
         return "Привет, я робот! Я умею рассказать о себе по комманде /about, " +

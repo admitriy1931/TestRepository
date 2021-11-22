@@ -9,11 +9,11 @@ public class WeatherIndCommand implements BotCommand {
     }
 
     private static ParserOutput printAboutWeather(String ind, String countryCode) {
-        var result = JSONParser(api.WeatherAPI.GetContentInd(ind, countryCode));
+        var result = jsonParser(api.WeatherAPI.getContentInd(ind, countryCode));
         return result.FormParserOutput();
     }
 
-    public static JsonParserResult JSONParser(String inputResult) {
+    public static JsonParserResult jsonParser(String inputResult) {
         var jsonObj = new JSONObject(inputResult);
         var temp = ("" + jsonObj.getJSONObject("main").getDouble("temp"));
 

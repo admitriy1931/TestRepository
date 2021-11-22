@@ -1,2 +1,5 @@
-package commands;public interface DialogAnswer {
+package commands;
+
+public interface DialogAnswer {
+    String getContent();
 }

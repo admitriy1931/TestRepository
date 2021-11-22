@@ -16,14 +16,14 @@ public class WeatherCommand implements BotCommand {
 
     public static ParserOutput printAboutWeather(String city) {
 
-        String content = api.WeatherAPI.GetContent(city);
+        String content = api.WeatherAPI.getContent(city);
         if (content.equals("Нет такого города"))
             return new ParserOutput(content);
-        var result = JSONParser(content);
+        var result = jsonParser(content);
         return result.FormParserOutput();
     }
 
-    public static JsonParserResult JSONParser(String inputResult) {
+    public static JsonParserResult jsonParser(String inputResult) {
         var jsonObj = new JSONObject(inputResult);
         var temp = ("" + jsonObj.getJSONObject("main").getDouble("temp"));
         var tempMax = ("" + jsonObj.getJSONObject("main").getDouble("temp_max"));

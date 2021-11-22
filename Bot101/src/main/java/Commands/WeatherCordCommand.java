@@ -10,7 +10,7 @@ public class WeatherCordCommand implements BotCommand {
     }
 
     private static ParserOutput printAboutWeather(String lat, String lon) {
-        var result = JSONParser(api.WeatherAPI.GetContent(lat, lon));
+        var result = jsonParser(api.WeatherAPI.getContent(lat, lon));
         return result.FormParserOutput();
     }
 
@@ -18,7 +18,7 @@ public class WeatherCordCommand implements BotCommand {
         return printAboutWeather(lat, lon);
     }
 
-    public static JsonParserResult JSONParser(String inputResult) {
+    public static JsonParserResult jsonParser(String inputResult) {
         var jsonObj = new JSONObject(inputResult);
         var temp = ("" + jsonObj.getJSONObject("current").getDouble("temp"));
         var pressure = ("" + jsonObj.getJSONObject("current").getDouble("pressure"));
