@@ -9,7 +9,7 @@ public class Advisor {
         var temperatureAnalysis = makeTemperatureAnalysis(jsonParserResult.temp);
         var cloudsAnalysis = makeCloudsAnalysis(jsonParserResult.clouds);
         var typeOfWeatherAnalysis = makeIconAnalysis(jsonParserResult.icon);
-        return String.format("За окном сегодня %s, на улице %s облачность, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
+        return String.format("За окном сегодня %s, на улице %s облачность, снаружи %s.", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
     }
 
     public static String formRecommendationFromText(String inputText) {

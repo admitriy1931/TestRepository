@@ -53,7 +53,6 @@ public class Bot extends TelegramLongPollingBot {
 
             var parserResult = new WeatherCordCommand().returnAnswerToLocation(lat.toString(), lon.toString());
             var commandResult = parserResult.stringOutput;
-
             var splitAnswer = commandResult.split(System.lineSeparator());
             var icon = splitAnswer[splitAnswer.length - 1];
             var isFindIcon = icon.length() == 3;
@@ -72,7 +71,6 @@ public class Bot extends TelegramLongPollingBot {
             String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
             var textAnswer = new ParserOutput(messageTextResult, parserResult.recommendation);
             sendMsg(message, textAnswer, true);
-
         } else if (update.hasCallbackQuery()) {
             long message_id = update.getCallbackQuery().getMessage().getMessageId();
             long chat_id = update.getCallbackQuery().getMessage().getChatId();
