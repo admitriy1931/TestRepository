@@ -20,6 +20,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 
 import java.io.IOException;
+import java.lang.reflect.UndeclaredThrowableException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -164,10 +165,11 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public String getBotToken() {
         Path path = Paths.get("C:\\Tokens\\Token.txt");
-        String contents = null;
+        String contents;
         try {
             contents = Files.readString(path, StandardCharsets.ISO_8859_1);
         } catch (IOException ex) {
+            throw new UndeclaredThrowableException(null);
         }
         return contents;
     }
