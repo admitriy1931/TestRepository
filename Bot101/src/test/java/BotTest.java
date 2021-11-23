@@ -9,7 +9,6 @@ import bot.CommandTable;
 import bot.Bot;
 import org.telegram.telegrambots.api.objects.Message;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
