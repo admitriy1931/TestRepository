@@ -1,6 +1,8 @@
 package bot;
-
+import bot.StaticClass;
+import advisor.Advisor;
 import commands.ParserOutput;
+import commands.WeatherCommand;
 import commands.WeatherCordCommand;
 import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
@@ -41,9 +43,11 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
+
     @Override
     public void onUpdateReceived(Update update) {
         var message = update.getMessage();
+
         if (message != null && message.hasLocation()) {
             var location = message.getLocation();
             var lat = location.getLatitude();
@@ -51,6 +55,7 @@ public class Bot extends TelegramLongPollingBot {
 
             var parserResult = new WeatherCordCommand().returnAnswerToLocation(lat.toString(), lon.toString());
             var commandResult = parserResult.stringOutput;
+            //System.out.println(commandResult);
 
             var splitAnswer = commandResult.split(System.lineSeparator());
             var icon = splitAnswer[splitAnswer.length - 1];
@@ -83,8 +88,15 @@ public class Bot extends TelegramLongPollingBot {
             }
 
         }
+        /*else if (message.getText() == "Рекомендации по погоде"){
+            String messageText = "kjabhkdjbaksjbdkjasbd";
+            sendMsg(update.getMessage().getChatId().toString(), messageText);
+        }*/
         else {
-            if (message != null && message.hasText()) {
+            if (message.getText().contains("Hellow")){
+                sendMsg(message.getChatId().toString(),message);
+            }
+            else if (message != null && message.hasText()) {
                 var messageText = message.getText();
                 sendMsg(message, getAnswerToCommand(messageText, message), update);
 
@@ -102,6 +114,13 @@ public class Bot extends TelegramLongPollingBot {
         if (commandTable.containsKey(messageText.split(" ")[0])) {
             var answerDic = CommandTable.getItem(commandTable, messageText);
             var recommendation = answerDic.Recommendation;
+
+            StaticClass a = new StaticClass();
+            a.tempPressClouds = answerDic.Result;
+            System.out.println(a.tempPressClouds);
+            a.Icon = answerDic.Icon;
+            System.out.println(a.Icon);
+            //System.out.println(kdmladk);
             if (answerDic.Icon != null) {
                 SendPhoto sendPhotoRequest = new SendPhoto();
                 sendPhotoRequest.setChatId(message.getChatId().toString());
@@ -114,7 +133,7 @@ public class Bot extends TelegramLongPollingBot {
                 }
             }
             answer = answerDic.Result;
-            return new ParserOutput(answer, recommendation);
+            return new ParserOutput(answer,recommendation);
         } else if (messageText.indexOf('/') != -1) {
             answer = "Я не знаю, что тебе ответить, ты ввел неправильную комманду";
             return new ParserOutput(answer);
@@ -129,11 +148,26 @@ public class Bot extends TelegramLongPollingBot {
     private void sendMsg(Message message, ParserOutput answer, Update update) {
 
         SendMessage sendMessage = new SendMessage();
-        //sendMessage.enableMarkdown(true);
+        sendMessage.enableMarkdown(true);
         sendMessage.setChatId(message.getChatId().toString());
         sendMessage.setReplyToMessageId(message.getMessageId());
         sendMessage.setText(answer.stringOutput);
-        sendMessage.setReplyMarkup(KeyBoardMessage());
+        setButtons(sendMessage);
+        //sendMessage.setReplyMarkup(KeyBoardMessage());
+        //sendMsg(message, answer.recommendation);
+        //sendMessage.setReplyMarkup(KeyBoardMessage(answer.recommendation));
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
+    private void sendMsg(String chatId, Message message){
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        sendMessage.setChatId(chatId);
+        sendMessage.setText("asdasdasd");
+        //sendMessage.setReplyMarkup(KeyBoardMessage());
         //sendMsg(message, answer.recommendation);
         //sendMessage.setReplyMarkup(KeyBoardMessage(answer.recommendation));
         try {
@@ -143,17 +177,8 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-//    private void sendMsg(Message message, String recommendation) {
-//        SendMessage sendMessage = new SendMessage();
-//        sendMessage.setChatId(message.getChatId().toString());
-//        sendMessage.setReplyToMessageId(message.getMessageId());
-//        sendMessage.setText(recommendation);
-//        try {
-//            execute(sendMessage);
-//        } catch (TelegramApiException e) {
-//            e.printStackTrace();
-//        }
-//    }
+
+
 
     @Override
     /*
@@ -181,29 +206,23 @@ public class Bot extends TelegramLongPollingBot {
     public void onClosing() {
         super.onClosing();
     }
-
-    public static ReplyKeyboardMarkup KeyBoardMessage() {
-//        System.out.println(recommendation);
-        ReplyKeyboardMarkup markup = new ReplyKeyboardMarkup();
-        KeyboardRow button = new KeyboardRow();
-        button.add("Рекомендации по погоде");
-        List<KeyboardRow> buttonList = new ArrayList<>();
-        buttonList.add(button);
-        markup.setKeyboard(buttonList);
-        return markup;
-//        InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
-//        InlineKeyboardButton inlineKeyboardButton1 = new InlineKeyboardButton();
-//        List<InlineKeyboardButton> keyboardButtonsRow1 = new ArrayList<>();
-//        inlineKeyboardButton1.setText("Рекомендации по погоде");
-//
-//        //inlineKeyboardButton1.setCallbackData("Рекомендуем одеться потеплее");
-//        inlineKeyboardButton1.setCallbackData(recommendation);
-//
-//        keyboardButtonsRow1.add(inlineKeyboardButton1);
-//
-//        List<List<InlineKeyboardButton>> rowList = new ArrayList<>();
-//        rowList.add(keyboardButtonsRow1);
-//        inlineKeyboardMarkup.setKeyboard(rowList);
-//        return inlineKeyboardMarkup;
+    public synchronized void setButtons(SendMessage sendMessage) {
+        ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
+        sendMessage.setReplyMarkup(replyKeyboardMarkup);
+        replyKeyboardMarkup.setSelective(true);
+        replyKeyboardMarkup.setResizeKeyboard(true);
+        replyKeyboardMarkup.setOneTimeKeyboard(false);
+        List<KeyboardRow> keyboard = new ArrayList<>();
+        KeyboardRow keyboardFirstRow = new KeyboardRow();
+        keyboardFirstRow.add(new KeyboardButton("Weather1"));
+        KeyboardRow keyboardSecondRow = new KeyboardRow();
+        keyboardSecondRow.add(new KeyboardButton("Weather2"));
+        keyboard.add(keyboardFirstRow);
+        keyboard.add(keyboardSecondRow);
+        replyKeyboardMarkup.setKeyboard(keyboard);
     }
+
+
+
+
 }
