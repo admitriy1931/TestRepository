@@ -1,4 +1,5 @@
 package bot;
+import advisor.WeatherText;
 import bot.StaticClass;
 import advisor.Advisor;
 import commands.ParserOutput;
@@ -93,7 +94,7 @@ public class Bot extends TelegramLongPollingBot {
             sendMsg(update.getMessage().getChatId().toString(), messageText);
         }*/
         else {
-            if (message.getText().contains("Hellow")){
+            if (message.getText().contains("Weather1")){
                 sendMsg(message.getChatId().toString(),message);
             }
             else if (message != null && message.hasText()) {
@@ -114,13 +115,9 @@ public class Bot extends TelegramLongPollingBot {
         if (commandTable.containsKey(messageText.split(" ")[0])) {
             var answerDic = CommandTable.getItem(commandTable, messageText);
             var recommendation = answerDic.Recommendation;
-
             StaticClass a = new StaticClass();
             a.tempPressClouds = answerDic.Result;
-            System.out.println(a.tempPressClouds);
             a.Icon = answerDic.Icon;
-            System.out.println(a.Icon);
-            //System.out.println(kdmladk);
             if (answerDic.Icon != null) {
                 SendPhoto sendPhotoRequest = new SendPhoto();
                 sendPhotoRequest.setChatId(message.getChatId().toString());
@@ -166,7 +163,7 @@ public class Bot extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(chatId);
-        sendMessage.setText("asdasdasd");
+        sendMessage.setText(WeatherText.FormOfRecommendation());
         //sendMessage.setReplyMarkup(KeyBoardMessage());
         //sendMsg(message, answer.recommendation);
         //sendMessage.setReplyMarkup(KeyBoardMessage(answer.recommendation));

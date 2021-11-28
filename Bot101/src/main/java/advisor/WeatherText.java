@@ -1,17 +1,18 @@
 package advisor;
 
-import commands.JsonParserResult;
+import bot.StaticClass;
 
 public class WeatherText {
+    public static String FormOfRecommendation() {
+        String icon = StaticClass.Icon;
+        String parseWeather = StaticClass.tempPressClouds;
+        String[] DisparseWeather = parseWeather.split("\n");
 
+        var temperatureAnalysis = MakeTemperatureAnalysis(DisparseWeather[1]);
+        var cloudsAnalysis = MakeCloudsAnalysis(DisparseWeather[5]);
+        var typeOfWeatherAnalysis = MakeIconAnalysis(icon);
 
-    public static String FormRecommendation(JsonParserResult jsonParserResult) {
-
-        var temperatureAnalysis = MakeTemperatureAnalysis(jsonParserResult.temp);
-        var cloudsAnalysis = MakeCloudsAnalysis(jsonParserResult.clouds);
-        var typeOfWeatherAnalysis = MakeIconAnalysis(jsonParserResult.icon);
-
-        return String.format("За окном сегодня %s, на улице %s облачность, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
+        return String.format("За окном сегодня %s, на улице  облачность %s, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
         //return "Рекомендуем одеться потеплее";
     }
 
