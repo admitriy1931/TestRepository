@@ -1,19 +1,12 @@
 package bot;
 import advisor.WeatherText;
-import bot.StaticClass;
-import advisor.Advisor;
 import commands.ParserOutput;
-import commands.WeatherCommand;
 import commands.WeatherCordCommand;
-import org.telegram.telegrambots.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.objects.Message;
 import org.telegram.telegrambots.api.objects.Update;
-import org.telegram.telegrambots.api.objects.replykeyboard.InlineKeyboardMarkup;
-import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboard;
 import org.telegram.telegrambots.api.objects.replykeyboard.ReplyKeyboardMarkup;
-import org.telegram.telegrambots.api.objects.replykeyboard.buttons.InlineKeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardButton;
 import org.telegram.telegrambots.api.objects.replykeyboard.buttons.KeyboardRow;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
@@ -115,9 +108,10 @@ public class Bot extends TelegramLongPollingBot {
         if (commandTable.containsKey(messageText.split(" ")[0])) {
             var answerDic = CommandTable.getItem(commandTable, messageText);
             var recommendation = answerDic.Recommendation;
-            StaticClass a = new StaticClass();
-            a.tempPressClouds = answerDic.Result;
-            a.Icon = answerDic.Icon;
+            //StaticClass a = new StaticClass();
+
+            Results.tempPressClouds = answerDic.Result;
+            Results.Icon = answerDic.Icon;
             if (answerDic.Icon != null) {
                 SendPhoto sendPhotoRequest = new SendPhoto();
                 sendPhotoRequest.setChatId(message.getChatId().toString());
@@ -219,7 +213,8 @@ public class Bot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
-
-
-
+    public static class Results {
+        public static String tempPressClouds;
+        public static String Icon;
+    }
 }

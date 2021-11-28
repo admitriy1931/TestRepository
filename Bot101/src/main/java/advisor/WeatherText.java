@@ -1,11 +1,11 @@
 package advisor;
 
-import bot.StaticClass;
+import bot.Bot.Results;
 
 public class WeatherText {
     public static String FormOfRecommendation() {
-        String icon = StaticClass.Icon;
-        String parseWeather = StaticClass.tempPressClouds;
+        String icon = Results.Icon;
+        String parseWeather = Results.tempPressClouds;
         String[] DisparseWeather = parseWeather.split("\n");
 
         var temperatureAnalysis = MakeTemperatureAnalysis(DisparseWeather[1]);
