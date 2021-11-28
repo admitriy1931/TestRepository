@@ -11,7 +11,6 @@ public class Advisor {
         var typeOfWeatherAnalysis = MakeIconAnalysis(jsonParserResult.icon);
 
         return String.format("За окном сегодня %s, на улице %s облачность, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
-        //return "Рекомендуем одеться потеплее";
     }
 
     private static String MakeIconAnalysis(String icon) {

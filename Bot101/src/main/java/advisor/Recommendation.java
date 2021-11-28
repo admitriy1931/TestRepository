@@ -1,2 +1,5 @@
-package advisor;public interface REacommendation {
+package advisor;
+
+public interface Recommendation {
+    String FormOfRecommendation();
 }

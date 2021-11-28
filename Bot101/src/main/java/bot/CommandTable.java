@@ -2,8 +2,6 @@ package bot;
 
 import commands.WeatherCordCommand;
 import commands.BotCommand;
-import commands.HelpCommand;
-import commands.AboutCommand;
 import commands.WeatherIndCommand;
 import commands.WeatherIdCommand;
 import commands.WeatherCommand;
@@ -20,10 +18,6 @@ public class CommandTable {
 
     private static HashMap constructHashMap() {
         var commandDic = new HashMap<String, BotCommand>();
-
-        //commandDic.put("/help", new HelpCommand());
-        //commandDic.put("/about", new AboutCommand());
-
         commandDic.put("/weather", new WeatherCommand());
         commandDic.put("/weatherCord", new WeatherCordCommand());
         commandDic.put("/weatherId", new WeatherIdCommand());

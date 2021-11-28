@@ -3,7 +3,7 @@ package commands;
 public class HelpCommand implements SimpleBotCommand {
 
     @Override
-    public String returnAnswer(String input) {
+    public String returnAnswer() {
         return "Привет, я робот! Я умею рассказать о себе по комманде /about, " +
                 "а еще могу вернуть погоду, для этого введи /weather" +
                 " пожалуйста, указывайте город английскими буквами" +

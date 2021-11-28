@@ -1,6 +1,8 @@
 package bot;
-import advisor.WeatherText;
+
+import advisor.Recommendation;
 import commands.ParserOutput;
+import commands.SimpleBotCommand;
 import commands.WeatherCordCommand;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
@@ -13,6 +15,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -41,7 +44,8 @@ public class Bot extends TelegramLongPollingBot {
     @Override
     public void onUpdateReceived(Update update) {
         var message = update.getMessage();
-
+        var conversationTable = ConversationTable.getTable();
+        var recommendationTable = RecommendationTable.getTable();
         if (message != null && message.hasLocation()) {
             var location = message.getLocation();
             var lat = location.getLatitude();
@@ -49,7 +53,6 @@ public class Bot extends TelegramLongPollingBot {
 
             var parserResult = new WeatherCordCommand().returnAnswerToLocation(lat.toString(), lon.toString());
             var commandResult = parserResult.stringOutput;
-            //System.out.println(commandResult);
 
             var splitAnswer = commandResult.split(System.lineSeparator());
             var icon = splitAnswer[splitAnswer.length - 1];
@@ -81,21 +84,15 @@ public class Bot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
 
-        }
-        /*else if (message.getText() == "Рекомендации по погоде"){
-            String messageText = "kjabhkdjbaksjbdkjasbd";
-            sendMsg(update.getMessage().getChatId().toString(), messageText);
-        }*/
-        else {
-            if (message.getText().contains("Weather1")){
-                sendMsg(message.getChatId().toString(),message);
-            }
-            else if (message != null && message.hasText()) {
-                var messageText = message.getText();
-                sendMsg(message, getAnswerToCommand(messageText, message), update);
-
-            }
-
+        } else if (conversationTable.containsKey(message.getText())) {
+            var simpleCommand = (SimpleBotCommand) conversationTable.get(message.getText());
+            sendMsg(message, simpleCommand.returnAnswer());
+        } else if (recommendationTable.containsKey(message.getText())) {
+            var recommendation= (Recommendation) recommendationTable.get(message.getText());
+            sendMsg(message, recommendation);
+        } else if (message != null && message.hasText()) {
+            var messageText = message.getText();
+            sendMsg(message, getAnswerToCommand(messageText, message), update);
         }
     }
 
@@ -105,6 +102,7 @@ public class Bot extends TelegramLongPollingBot {
         String answer;
 
         var commandTable = CommandTable.getTable();
+
         if (commandTable.containsKey(messageText.split(" ")[0])) {
             var answerDic = CommandTable.getItem(commandTable, messageText);
             var recommendation = answerDic.Recommendation;
@@ -124,16 +122,14 @@ public class Bot extends TelegramLongPollingBot {
                 }
             }
             answer = answerDic.Result;
-            return new ParserOutput(answer,recommendation);
+            return new ParserOutput(answer, recommendation);
         } else if (messageText.indexOf('/') != -1) {
             answer = "Я не знаю, что тебе ответить, ты ввел неправильную комманду";
             return new ParserOutput(answer);
-        }
-        else {
+        } else {
             answer = "Извини, я пока не умею веести свободный диалог((( Попробуй ввести комманду";
             return new ParserOutput(answer);
         }
-        //return answer;
     }
 
     private void sendMsg(Message message, ParserOutput answer, Update update) {
@@ -144,23 +140,19 @@ public class Bot extends TelegramLongPollingBot {
         sendMessage.setReplyToMessageId(message.getMessageId());
         sendMessage.setText(answer.stringOutput);
         setButtons(sendMessage);
-        //sendMessage.setReplyMarkup(KeyBoardMessage());
-        //sendMsg(message, answer.recommendation);
-        //sendMessage.setReplyMarkup(KeyBoardMessage(answer.recommendation));
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
     }
-    private void sendMsg(String chatId, Message message){
+
+    private void sendMsg(Message message, String striingAnswer) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
-        sendMessage.setChatId(chatId);
-        sendMessage.setText(WeatherText.FormOfRecommendation());
-        //sendMessage.setReplyMarkup(KeyBoardMessage());
-        //sendMsg(message, answer.recommendation);
-        //sendMessage.setReplyMarkup(KeyBoardMessage(answer.recommendation));
+        sendMessage.setChatId(message.getChatId().toString());
+        sendMessage.setReplyToMessageId(message.getMessageId());
+        sendMessage.setText(striingAnswer);
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
@@ -168,16 +160,21 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-
+    private void sendMsg(Message message, Recommendation recommendation) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(true);
+        sendMessage.setChatId(message.getChatId().toString());
+        var recommendationText = recommendation.FormOfRecommendation();
+        sendMessage.setText(recommendationText);
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
+        }
+    }
 
 
     @Override
-    /*
-    public String getBotUsername() {
-        return "DownloadAssistantBot";
-    }
-    */
-
     public String getBotUsername() {
         return "DownloadAssistantBot";
     }
@@ -197,6 +194,7 @@ public class Bot extends TelegramLongPollingBot {
     public void onClosing() {
         super.onClosing();
     }
+
     public synchronized void setButtons(SendMessage sendMessage) {
         ReplyKeyboardMarkup replyKeyboardMarkup = new ReplyKeyboardMarkup();
         sendMessage.setReplyMarkup(replyKeyboardMarkup);

@@ -2,8 +2,8 @@ package advisor;
 
 import bot.Bot.Results;
 
-public class WeatherText {
-    public static String FormOfRecommendation() {
+public class WeatherText implements Recommendation{
+    public String FormOfRecommendation() {
         String icon = Results.Icon;
         String parseWeather = Results.tempPressClouds;
         String[] DisparseWeather = parseWeather.split("\n");
@@ -13,7 +13,6 @@ public class WeatherText {
         var typeOfWeatherAnalysis = MakeIconAnalysis(icon);
 
         return String.format("За окном сегодня %s, на улице  облачность %s, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
-        //return "Рекомендуем одеться потеплее";
     }
 
     private static String MakeIconAnalysis(String icon) {
