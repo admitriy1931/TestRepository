@@ -1,4 +1,10 @@
-package advisor;
+package advisor.types;
 
-public class StormSnow {
+import java.util.ArrayList;
+
+public class StormSnow implements Type {
+    @Override
+    public ArrayList<String> getClothName(String temperature, String type, String wind) {
+        return null;
+    }
 }

@@ -1,4 +1,4 @@
-package advisor;
+package advisor.types;
 
 import java.util.ArrayList;
 

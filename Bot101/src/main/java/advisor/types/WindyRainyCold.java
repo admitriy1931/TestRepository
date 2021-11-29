@@ -1,4 +1,10 @@
-package advisor;
+package advisor.types;
 
-public class WindyRainyCold {
+import java.util.ArrayList;
+
+public class WindyRainyCold implements Type {
+    @Override
+    public ArrayList<String> getClothName(String temperature, String type, String wind) {
+        return null;
+    }
 }

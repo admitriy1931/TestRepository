@@ -1,6 +1,7 @@
 package advisor;
 
 import bot.Bot.Results;
+import commands.JsonParserResult;
 
 public class WeatherText implements Recommendation{
     public String FormOfRecommendation() {
@@ -13,6 +14,14 @@ public class WeatherText implements Recommendation{
         var typeOfWeatherAnalysis = MakeIconAnalysis(icon);
 
         return String.format("За окном сегодня %s, на улице  облачность %s, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
+    }
+    public static String FormRecommendation(JsonParserResult jsonParserResult) {
+
+        var temperatureAnalysis = MakeTemperatureAnalysis(jsonParserResult.temp);
+        var cloudsAnalysis = MakeCloudsAnalysis(jsonParserResult.clouds);
+        var typeOfWeatherAnalysis = MakeIconAnalysis(jsonParserResult.icon);
+
+        return String.format("За окном сегодня %s, на улице %s облачность, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
     }
 
     private static String MakeIconAnalysis(String icon) {

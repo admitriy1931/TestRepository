@@ -109,11 +109,6 @@ public class Bot extends TelegramLongPollingBot {
             var recommendation = answerDic.Recommendation;
             Results.tempPressClouds = answerDic.Result;
             Results.Icon = answerDic.Icon;
-            System.out.println("&&&&&&&&&&&&&&&&&");
-            System.out.println(answerDic.Result);
-            System.out.println("&&&&&&&&&&&&&&&&&");
-            System.out.println(answerDic.Recommendation);
-            System.out.println("&&&&&&&&&&&&&&&&&");
 
             if (answerDic.Icon != null) {
                 SendPhoto sendPhotoRequest = new SendPhoto();

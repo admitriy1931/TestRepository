@@ -9,8 +9,6 @@ public class ClothText implements Recommendation {
         String icon = Bot.Results.Icon;
         String parseWeather = Bot.Results.tempPressClouds;
         String[] DisparseWeather = parseWeather.split("\n");
-        System.out.println("**************************");
-        System.out.println(DisparseWeather[9]);
         var temp = DisparseWeather[1];
         var windy = DisparseWeather[9];
         var Chooser = new ClothChooser(temp, icon, windy);

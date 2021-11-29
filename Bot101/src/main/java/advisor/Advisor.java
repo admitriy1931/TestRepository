@@ -1,3 +1,4 @@
+/*
 package advisor;
 
 import commands.JsonParserResult;
@@ -79,3 +80,4 @@ public class Advisor {
         return "жара";
     }
 }
+*/

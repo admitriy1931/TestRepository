@@ -6,7 +6,6 @@ import commands.WeatherIndCommand;
 import commands.WeatherIdCommand;
 import commands.WeatherCommand;
 
-import java.util.Arrays;
 import java.util.HashMap;
 
 public class CommandTable {
@@ -31,14 +30,9 @@ public class CommandTable {
         var resultOutput = result.returnAnswer(messageText);
 
         var resultAnswer = resultOutput.stringOutput;
-        System.out.println("!");
-        System.out.println(resultAnswer);
-        System.out.println("!");
         var splitAnswer = resultAnswer.split(System.lineSeparator());
         var icon = splitAnswer[splitAnswer.length - 3];
         var isFindIcon = icon.length() == 3;
-        //if (isFindIcon)
-        //    splitAnswer = Arrays.copyOf(splitAnswer, splitAnswer.length - 2);
         String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
         return new ResItem(isFindIcon, messageTextResult, icon, resultOutput.recommendation);
     }

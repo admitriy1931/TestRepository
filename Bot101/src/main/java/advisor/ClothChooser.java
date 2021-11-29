@@ -1,7 +1,8 @@
 package advisor;
 
+import advisor.types.Type;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class ClothChooser {
     public String Head = "Шапку";
