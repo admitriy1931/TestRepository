@@ -96,7 +96,6 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-
     public ParserOutput getAnswerToCommand(String messageText, Message message)//Можем тестить этот метод
     {
         String answer;

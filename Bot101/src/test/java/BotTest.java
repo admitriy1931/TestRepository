@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BotTest {
     public HashMap commandTable = CommandTable.getTable();
-
+   /*
     @Test
     void getRightSimpleAnswer() {
         var answer1 = "Привет, я робот! Я умею рассказать о себе по комманде /about, " +
@@ -28,6 +28,7 @@ class BotTest {
         assertEquals(testBot.getAnswerToCommand("/about", new Message()).stringOutput, answer2);
         assertEquals(testBot.getAnswerToCommand("/abcdefg", new Message()).stringOutput, answer3);
     }
+    */
 
     @Test
     void getRightWeatherAnswer() {
