@@ -31,7 +31,7 @@ public class CommandTable {
 
         var resultAnswer = resultOutput.stringOutput;
         var splitAnswer = resultAnswer.split(System.lineSeparator());
-        var icon = splitAnswer[splitAnswer.length - 3];
+        var icon = splitAnswer[splitAnswer.length - 5];
         var isFindIcon = icon.length() == 3;
         String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
         return new ResItem(isFindIcon, messageTextResult, icon, resultOutput.recommendation);

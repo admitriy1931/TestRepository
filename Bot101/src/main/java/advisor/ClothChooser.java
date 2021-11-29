@@ -10,13 +10,11 @@ public class ClothChooser {
     public String Legs = "Джинсы";
     public String Feets = "Кроссовки";
 
-    public ClothChooser(String temperature, String type, String wind)
-    {
-        var listOfTypes = ListOfTypes.TYPES;
+    public ClothChooser(String temperature, String type, String wind, String description) {
+        var listOfTypes = new ListOfTypes().List;
         ArrayList<String> result = null;
-        for (Type weatherType: listOfTypes)
-        {
-            result = weatherType.getClothName(temperature, type, wind);
+        for (Type weatherType : listOfTypes) {
+            result = weatherType.getClothName(temperature, type, wind, description);
             if (result != null) {
                 Head = result.get(0);
                 Body = result.get(1);

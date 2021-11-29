@@ -7,13 +7,15 @@ public class JsonParserResult {
     public String clouds;
     public String icon;
     public String wind;
+    public String main;
 
-    public JsonParserResult(String temp, String pressure, String clouds, String icon, String wind) {
+    public JsonParserResult(String temp, String pressure, String clouds, String main, String icon, String wind) {
         this.temp = temp;
         this.pressure = pressure;
         this.clouds = clouds;
         this.icon = icon;
         this.wind = wind;
+        this.main = main;
     }
 
     public ParserOutput FormParserOutput() {
@@ -27,7 +29,9 @@ public class JsonParserResult {
                             "icon: " + System.lineSeparator() +
                             this.icon + System.lineSeparator() +
                             "wind: " + System.lineSeparator() +
-                            this.wind + System.lineSeparator();
+                            this.wind + System.lineSeparator() +
+                            "description: " + System.lineSeparator() +
+                            this.main + System.lineSeparator();
         var recommendation = WeatherText.FormRecommendation(this);
         var output = new ParserOutput(stringOutput, recommendation);
         return output;

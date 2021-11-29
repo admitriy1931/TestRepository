@@ -11,7 +11,8 @@ public class ClothText implements Recommendation {
         String[] DisparseWeather = parseWeather.split("\n");
         var temp = DisparseWeather[1];
         var windy = DisparseWeather[9];
-        var Chooser = new ClothChooser(temp, icon, windy);
+        var description = DisparseWeather[11];
+        var Chooser = new ClothChooser(temp, icon, windy, description);
 
         return "Сегодня Вам лучше надеть " + Chooser.Body + ' '
                 + Chooser.Feets + ' ' + Chooser.Head + ' ' + Chooser.Legs;

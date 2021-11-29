@@ -88,7 +88,7 @@ public class Bot extends TelegramLongPollingBot {
             var simpleCommand = (SimpleBotCommand) conversationTable.get(message.getText());
             sendMsg(message, simpleCommand.returnAnswer());
         } else if (recommendationTable.containsKey(message.getText())) {
-            var recommendation= (Recommendation) recommendationTable.get(message.getText());
+            var recommendation = (Recommendation) recommendationTable.get(message.getText());
             sendMsg(message, recommendation);
         } else if (message != null && message.hasText()) {
             var messageText = message.getText();
