@@ -105,11 +105,16 @@ public class Bot extends TelegramLongPollingBot {
 
         if (commandTable.containsKey(messageText.split(" ")[0])) {
             var answerDic = CommandTable.getItem(commandTable, messageText);
-            var recommendation = answerDic.Recommendation;
-            //StaticClass a = new StaticClass();
 
+            var recommendation = answerDic.Recommendation;
             Results.tempPressClouds = answerDic.Result;
             Results.Icon = answerDic.Icon;
+            System.out.println("&&&&&&&&&&&&&&&&&");
+            System.out.println(answerDic.Result);
+            System.out.println("&&&&&&&&&&&&&&&&&");
+            System.out.println(answerDic.Recommendation);
+            System.out.println("&&&&&&&&&&&&&&&&&");
+
             if (answerDic.Icon != null) {
                 SendPhoto sendPhotoRequest = new SendPhoto();
                 sendPhotoRequest.setChatId(message.getChatId().toString());
@@ -211,8 +216,10 @@ public class Bot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
+
     public static class Results {
         public static String tempPressClouds;
         public static String Icon;
     }
+
 }

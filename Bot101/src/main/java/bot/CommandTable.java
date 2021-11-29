@@ -29,12 +29,16 @@ public class CommandTable {
                                   String messageText) {
         var result = (BotCommand) commandTable.get(messageText.split(" ")[0]);
         var resultOutput = result.returnAnswer(messageText);
+
         var resultAnswer = resultOutput.stringOutput;
+        System.out.println("!");
+        System.out.println(resultAnswer);
+        System.out.println("!");
         var splitAnswer = resultAnswer.split(System.lineSeparator());
-        var icon = splitAnswer[splitAnswer.length - 1];
+        var icon = splitAnswer[splitAnswer.length - 3];
         var isFindIcon = icon.length() == 3;
-        if (isFindIcon)
-            splitAnswer = Arrays.copyOf(splitAnswer, splitAnswer.length - 2);
+        //if (isFindIcon)
+        //    splitAnswer = Arrays.copyOf(splitAnswer, splitAnswer.length - 2);
         String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
         return new ResItem(isFindIcon, messageTextResult, icon, resultOutput.recommendation);
     }

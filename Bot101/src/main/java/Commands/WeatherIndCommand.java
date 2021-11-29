@@ -22,6 +22,7 @@ public class WeatherIndCommand implements BotCommand {
         var pressure = ("" + jsonObj.getJSONObject("main").getDouble("pressure"));
         var clouds = ("" + jsonObj.getJSONObject("clouds").getDouble("all"));
         var icon = ("" + jsonObj.getJSONArray("weather").getJSONObject(0).getString("icon"));
-        return new JsonParserResult(temp, pressure, clouds, icon);
+        var wind = (""+ jsonObj.getJSONObject("wind").getDouble("speed"));
+        return new JsonParserResult(temp, pressure, clouds, icon, wind);
     }
 }

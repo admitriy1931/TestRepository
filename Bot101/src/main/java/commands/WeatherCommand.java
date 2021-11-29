@@ -20,6 +20,13 @@ public class WeatherCommand implements BotCommand {
         if (content.equals("Нет такого города"))
             return new ParserOutput(content);
         var result = JSONParser(content);
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(" ");
+        System.out.println(result.FormParserOutput().stringOutput);
+        System.out.println(" @@@@@@@@@@@@@@@@@@@@");
         return result.FormParserOutput();
     }
 
@@ -31,6 +38,9 @@ public class WeatherCommand implements BotCommand {
         var pressure = ("" + jsonObj.getJSONObject("main").getDouble("pressure"));
         var clouds = ("" + jsonObj.getJSONObject("clouds").getDouble("all"));
         var icon = ("" + jsonObj.getJSONArray("weather").getJSONObject(0).getString("icon"));
-        return new JsonParserResult(temp, pressure, clouds, icon);
+        var wind = (""+ jsonObj.getJSONObject("wind").getDouble("speed"));
+        System.out.println("!!!!!!!!!!!!!!!");
+        System.out.println(wind);
+        return new JsonParserResult(temp, pressure, clouds, icon, wind);
     }
 }
