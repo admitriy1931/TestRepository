@@ -13,8 +13,8 @@ public class RecommendationTable {
     private static HashMap constructConversationTable() {
         var conversationDic = new HashMap<String, Recommendation>();
 
-        conversationDic.put("Weather1", new WeatherText());
-        conversationDic.put("Weather2", new ClothText());
+        conversationDic.put("WeatherText", new WeatherText());
+        conversationDic.put("ClothText", new ClothText());
         return conversationDic;
     }
 

@@ -164,7 +164,7 @@ public class Bot extends TelegramLongPollingBot {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(message.getChatId().toString());
-        var recommendationText = recommendation.FormOfRecommendation();
+        var recommendationText = recommendation.formOfRecommendation();
         sendMessage.setText(recommendationText);
         try {
             execute(sendMessage);
@@ -203,9 +203,9 @@ public class Bot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setOneTimeKeyboard(false);
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("Weather1"));
+        keyboardFirstRow.add(new KeyboardButton("WeatherText"));
         KeyboardRow keyboardSecondRow = new KeyboardRow();
-        keyboardSecondRow.add(new KeyboardButton("Weather2"));
+        keyboardSecondRow.add(new KeyboardButton("ClothText"));
         keyboard.add(keyboardFirstRow);
         keyboard.add(keyboardSecondRow);
         replyKeyboardMarkup.setKeyboard(keyboard);

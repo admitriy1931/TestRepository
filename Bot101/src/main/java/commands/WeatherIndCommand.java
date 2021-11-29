@@ -9,14 +9,13 @@ public class WeatherIndCommand implements BotCommand {
     }
 
     private static ParserOutput printAboutWeather(String ind, String countryCode) {
-        var result = JSONParser(api.WeatherAPI.GetContentInd(ind, countryCode));
+        var result = JSONParser(api.WeatherAPI.getContentInd(ind, countryCode));
         return result.FormParserOutput();
     }
 
     public static JsonParserResult JSONParser(String inputResult) {
         var jsonObj = new JSONObject(inputResult);
         var temp = ("" + jsonObj.getJSONObject("main").getDouble("temp"));
-
         var tempMax = ("" + jsonObj.getJSONObject("main").getDouble("temp_max"));
         var tempMin = ("" + jsonObj.getJSONObject("main").getDouble("temp_min"));
         var pressure = ("" + jsonObj.getJSONObject("main").getDouble("pressure"));

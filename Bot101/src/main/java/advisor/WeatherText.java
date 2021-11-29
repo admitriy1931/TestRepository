@@ -4,27 +4,27 @@ import bot.Bot.Results;
 import commands.JsonParserResult;
 
 public class WeatherText implements Recommendation{
-    public String FormOfRecommendation() {
+    public String formOfRecommendation() {
         String icon = Results.Icon;
         String parseWeather = Results.tempPressClouds;
         String[] DisparseWeather = parseWeather.split("\n");
 
-        var temperatureAnalysis = MakeTemperatureAnalysis(DisparseWeather[1]);
-        var cloudsAnalysis = MakeCloudsAnalysis(DisparseWeather[5]);
-        var typeOfWeatherAnalysis = MakeIconAnalysis(icon);
+        var temperatureAnalysis = makeTemperatureAnalysis(DisparseWeather[1]);
+        var cloudsAnalysis = makeCloudsAnalysis(DisparseWeather[5]);
+        var typeOfWeatherAnalysis = makeIconAnalysis(icon);
 
         return String.format("За окном сегодня %s, на улице  облачность %s, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
     }
-    public static String FormRecommendation(JsonParserResult jsonParserResult) {
+    public static String formRecommendation(JsonParserResult jsonParserResult) {
 
-        var temperatureAnalysis = MakeTemperatureAnalysis(jsonParserResult.temp);
-        var cloudsAnalysis = MakeCloudsAnalysis(jsonParserResult.clouds);
-        var typeOfWeatherAnalysis = MakeIconAnalysis(jsonParserResult.icon);
+        var temperatureAnalysis = makeTemperatureAnalysis(jsonParserResult.temp);
+        var cloudsAnalysis = makeCloudsAnalysis(jsonParserResult.clouds);
+        var typeOfWeatherAnalysis = makeIconAnalysis(jsonParserResult.icon);
 
         return String.format("За окном сегодня %s, на улице %s облачность, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
     }
 
-    private static String MakeIconAnalysis(String icon) {
+    private static String makeIconAnalysis(String icon) {
         String result = "";
         switch(icon.substring(0,2)){
             case("11") :
@@ -58,7 +58,7 @@ public class WeatherText implements Recommendation{
         return result;
     }
 
-    private static String MakeCloudsAnalysis(String clouds) {
+    private static String makeCloudsAnalysis(String clouds) {
         var valueClouds = Double.parseDouble(clouds)/10;
         if(valueClouds <=1)
             return "нулевая";
@@ -73,7 +73,7 @@ public class WeatherText implements Recommendation{
         return "неопределенная";
     }
 
-    private static String MakeTemperatureAnalysis(String temp) {
+    private static String makeTemperatureAnalysis(String temp) {
         var valueTemp = Double.parseDouble(temp);
         if(valueTemp <=-25)
             return "ледяной ад";

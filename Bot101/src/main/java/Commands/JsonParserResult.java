@@ -32,7 +32,7 @@ public class JsonParserResult {
                             this.wind + System.lineSeparator() +
                             "description: " + System.lineSeparator() +
                             this.main + System.lineSeparator();
-        var recommendation = WeatherText.FormRecommendation(this);
+        var recommendation = WeatherText.formRecommendation(this);
         var output = new ParserOutput(stringOutput, recommendation);
         return output;
     }

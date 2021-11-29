@@ -4,7 +4,7 @@ import bot.Bot;
 
 public class ClothText implements Recommendation {
     @Override
-    public String FormOfRecommendation() {
+    public String formOfRecommendation() {
 
         String icon = Bot.Results.Icon;
         String parseWeather = Bot.Results.tempPressClouds;
@@ -14,7 +14,7 @@ public class ClothText implements Recommendation {
         var description = DisparseWeather[11];
         var Chooser = new ClothChooser(temp, icon, windy, description);
 
-        return "Сегодня Вам лучше надеть " + Chooser.Body + ' '
-                + Chooser.Feets + ' ' + Chooser.Head + ' ' + Chooser.Legs;
+        return "Сегодня в Ваш гардероб должны войти " + Chooser.Body + ", "
+                + Chooser.Feets + ", " + Chooser.Head + ", " + Chooser.Legs;
     }
 }

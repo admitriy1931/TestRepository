@@ -10,7 +10,7 @@ public class WeatherCordCommand implements BotCommand {
     }
 
     private static ParserOutput printAboutWeather(String lat, String lon) {
-        var result = JSONParser(api.WeatherAPI.GetContent(lat, lon));
+        var result = JSONParser(api.WeatherAPI.getContent(lat, lon));
         return result.FormParserOutput();
     }
 

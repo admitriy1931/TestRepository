@@ -9,7 +9,7 @@ public class WeatherIdCommand implements BotCommand {
     }
 
     private static ParserOutput printAboutWeather(String id) {
-        var result = JSONParser(api.WeatherAPI.GetContentId(id));
+        var result = JSONParser(api.WeatherAPI.getContentId(id));
         return result.FormParserOutput();
     }
 
