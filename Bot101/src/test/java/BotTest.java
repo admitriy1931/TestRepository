@@ -53,10 +53,8 @@ class BotTest {
         var parserResult = new JsonParserResult("-9.19", "1017.0", "87.0","overcast clouds", "04n", "2.53").FormParserOutput();
         assertEquals(parserResult.stringOutput,
                 WeatherCordCommand.JSONParser(jsonWeather).FormParserOutput().stringOutput);
-        var a = parserResult.recommendation;
-        var b = WeatherCordCommand.JSONParser(jsonWeather).FormParserOutput().recommendation;
         //assertEquals(parserResult.recommendation,
-                //WeatherIndCommand.JSONParser(jsonWeather).FormParserOutput().recommendation);
+                //WeatherCordCommand.JSONParser(jsonWeather).FormParserOutput().recommendation);
 
         var cloth = new ClothChooser("-9.19", "04", "2.53", "overcast clouds");
         assertEquals(cloth.Body, "Куртка");

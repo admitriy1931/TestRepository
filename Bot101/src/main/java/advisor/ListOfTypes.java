@@ -1,6 +1,6 @@
 package advisor;
 
-import advisor.types.Type;
+import advisor.types.WeatherType;
 import advisor.types.WindlessRainyCold;
 import advisor.types.WindlessRainyWarm;
 import advisor.types.WindlessSoftCold;
@@ -15,7 +15,7 @@ import advisor.types.WindyRainyWarm;
 import java.util.ArrayList;
 
 public class ListOfTypes {
-    public ArrayList<Type> List = new ArrayList<>();
+    public ArrayList<WeatherType> List = new ArrayList<>();
 
     public ListOfTypes() {
         List.add(new SoftSnow());
