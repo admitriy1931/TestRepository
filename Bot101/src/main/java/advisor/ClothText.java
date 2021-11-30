@@ -8,13 +8,13 @@ public class ClothText implements Recommendation {
 
         String icon = Bot.Results.Icon;
         String parseWeather = Bot.Results.tempPressClouds;
-        String[] DisparseWeather = parseWeather.split("\n");
-        var temp = DisparseWeather[1];
-        var windy = DisparseWeather[9];
-        var description = DisparseWeather[11];
-        var Chooser = new ClothChooser(temp, icon, windy, description);
+        String[] disparseWeather = parseWeather.split("\n");
+        var temp = Double.parseDouble(disparseWeather[1]);
+        var windy = Double.parseDouble(disparseWeather[9]);
+        var description = disparseWeather[11];
+        var chooser = new ClothChooser(temp, icon, windy, description);
 
-        return "Сегодня в Ваш гардероб должны войти " + Chooser.Body + ", "
-                + Chooser.Feets + ", " + Chooser.Head + ", " + Chooser.Legs;
+        return "Сегодня в Ваш гардероб должны войти " + chooser.body + ", "
+                + chooser.feets + ", " + chooser.head + ", " + chooser.legs;
     }
 }

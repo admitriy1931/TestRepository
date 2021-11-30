@@ -6,9 +6,9 @@ import java.util.Locale;
 
 public class WindlessSoftWarm implements WeatherType {
     @Override
-    public ArrayList<String> getClothesNames(String temperature, String type, String wind, String description) {
-        if (Double.parseDouble(wind) > 1 ||
-                description.contains("rain".toLowerCase(Locale.ROOT)) || Double.parseDouble(temperature) <= 10)
+    public ArrayList<String> getClothesNames(Double temperature, String type, Double wind, String description) {
+        if (wind > 1 ||
+                description.contains("rain") || temperature <= 10)
             return null;
         return new ArrayList<>(Arrays.asList("Легкая бейсболка", "Поло", "Шорты", "Мокасины"));
     }

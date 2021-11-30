@@ -5,21 +5,21 @@ import advisor.types.WeatherType;
 import java.util.ArrayList;
 
 public class ClothChooser {
-    public String Head = "Шапку";
-    public String Body = "Худи";
-    public String Legs = "Джинсы";
-    public String Feets = "Кроссовки";
+    public String head = "Шапку";
+    public String body = "Худи";
+    public String legs = "Джинсы";
+    public String feets = "Кроссовки";
 
-    public ClothChooser(String temperature, String type, String wind, String description) {
+    public ClothChooser(Double temperature, String type, Double wind, String description) {
         var listOfTypes = new ListOfTypes().List;
-        ArrayList<String> result = null;
+        var result = new ArrayList<String>();
         for (WeatherType weatherType : listOfTypes) {
             result = weatherType.getClothesNames(temperature, type, wind, description);
             if (result != null) {
-                Head = result.get(0);
-                Body = result.get(1);
-                Legs = result.get(2);
-                Feets = result.get(3);
+                head = result.get(0);
+                body = result.get(1);
+                legs = result.get(2);
+                feets = result.get(3);
                 break;
             }
         }

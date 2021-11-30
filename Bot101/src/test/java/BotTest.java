@@ -3,7 +3,6 @@ import commands.*;
 import org.junit.jupiter.api.Test;
 import bot.CommandTable;
 import bot.Bot;
-import org.telegram.telegrambots.api.objects.Message;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -38,11 +37,11 @@ class BotTest {
                 WeatherCommand.JSONParser(jsonWeather).FormParserOutput().stringOutput);
         assertEquals(parserResult.recommendation,
                 WeatherCommand.JSONParser(jsonWeather).FormParserOutput().recommendation);
-        var cloth = new ClothChooser("1.77", "10", "6.0", "light rain");
-        assertEquals(cloth.Body, "Куртка");
-        assertEquals(cloth.Legs, "Джинсы");
-        assertEquals(cloth.Head, "Шапка");
-        assertEquals(cloth.Feets, "Ботинки");
+        var cloth = new ClothChooser(1.77, "10", 6.0, "light rain");
+        assertEquals(cloth.body, "Куртка");
+        assertEquals(cloth.legs, "Джинсы");
+        assertEquals(cloth.head, "Шапка");
+        assertEquals(cloth.feets, "Ботинки");
 
     }
 
@@ -56,11 +55,11 @@ class BotTest {
         //assertEquals(parserResult.recommendation,
                 //WeatherCordCommand.JSONParser(jsonWeather).FormParserOutput().recommendation);
 
-        var cloth = new ClothChooser("-9.19", "04", "2.53", "overcast clouds");
-        assertEquals(cloth.Body, "Куртка");
-        assertEquals(cloth.Legs, "Джинсы");
-        assertEquals(cloth.Head, "Шапка");
-        assertEquals(cloth.Feets, "Ботинки");
+        var cloth = new ClothChooser(-9.19, "04", 2.53, "overcast clouds");
+        assertEquals(cloth.body, "Куртка");
+        assertEquals(cloth.legs, "Джинсы");
+        assertEquals(cloth.head, "Шапка");
+        assertEquals(cloth.feets, "Ботинки");
     }
 
     @Test
@@ -72,11 +71,11 @@ class BotTest {
         assertEquals(parserResult.recommendation,
                 WeatherIdCommand.JSONParser(jsonWeather).FormParserOutput().recommendation);
 
-        var cloth = new ClothChooser("277.92", "04", "5.0", "broken clouds");
-        assertEquals(cloth.Body, "Лонгслив");
-        assertEquals(cloth.Legs, "Брюки-карго");
-        assertEquals(cloth.Head, "Бейсболка");
-        assertEquals(cloth.Feets, "Кроссовки");
+        var cloth = new ClothChooser(277.92, "04", 5.0, "broken clouds");
+        assertEquals(cloth.body, "Лонгслив");
+        assertEquals(cloth.legs, "Брюки-карго");
+        assertEquals(cloth.head, "Бейсболка");
+        assertEquals(cloth.feets, "Кроссовки");
     }
 
     @Test
@@ -87,11 +86,11 @@ class BotTest {
                 WeatherIndCommand.JSONParser(jsonWeather).FormParserOutput().stringOutput);
         assertEquals(parserResult.recommendation,
                 WeatherIndCommand.JSONParser(jsonWeather).FormParserOutput().recommendation);
-        var cloth = new ClothChooser("4.62", "04", "4.0", "Clouds");
-        assertEquals(cloth.Body, "Куртка");
-        assertEquals(cloth.Legs, "Джинсы");
-        assertEquals(cloth.Head, "Шапка");
-        assertEquals(cloth.Feets, "Ботинки");
+        var cloth = new ClothChooser(4.62, "04", 4.0, "Clouds");
+        assertEquals(cloth.body, "Куртка");
+        assertEquals(cloth.legs, "Джинсы");
+        assertEquals(cloth.head, "Шапка");
+        assertEquals(cloth.feets, "Ботинки");
     }
 
 
