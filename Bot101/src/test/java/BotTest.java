@@ -28,6 +28,9 @@ class BotTest {
         assertEquals(testBot.getAnswerToCommand("/abcdefg", new Message()).stringOutput, answer3);
     }
     */
+    
+
+
 
     @Test
     void getRightWeatherAnswer() {

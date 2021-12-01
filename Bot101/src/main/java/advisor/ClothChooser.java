@@ -12,16 +12,24 @@ public class ClothChooser {
 
     public ClothChooser(Double temperature, String type, Double wind, String description) {
         var listOfTypes = new ListOfTypes().List;
-        var result = new ArrayList<String>();
+        ClothChooser result = null;
         for (WeatherType weatherType : listOfTypes) {
             result = weatherType.getClothesNames(temperature, type, wind, description);
             if (result != null) {
-                head = result.get(0);
-                body = result.get(1);
-                legs = result.get(2);
-                feets = result.get(3);
+                this.head = result.head;
+                this.legs = result.legs;
+                this.feets = result.feets;
+                this.body = result.body;
                 break;
             }
         }
+    }
+
+    public ClothChooser(String head, String body, String legs, String feets)
+    {
+        this.head = head;
+        this.body = body;
+        this.legs = legs;
+        this.feets = feets;
     }
 }
