@@ -15,11 +15,5 @@ public class RightWeatherAnswerTest {
                 WeatherCommand.JSONParser(jsonWeather).FormParserOutput().stringOutput);
         assertEquals(parserResult.recommendation,
                 WeatherCommand.JSONParser(jsonWeather).FormParserOutput().recommendation);
-        var cloth = new ClothChooser(1.77, "10", 6.0, "light rain");
-        assertEquals(cloth.body, "Куртка");
-        assertEquals(cloth.legs, "Джинсы");
-        assertEquals(cloth.head, "Шапка");
-        assertEquals(cloth.feets, "Ботинки");
-
     }
 }

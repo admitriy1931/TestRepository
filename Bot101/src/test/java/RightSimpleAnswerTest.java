@@ -1,3 +1,4 @@
+import commands.AboutCommand;
 import commands.HelpCommand;
 import org.junit.jupiter.api.Test;
 import bot.Bot;
@@ -17,7 +18,7 @@ class RightSimpleAnswerTest {
         var answer3 = "Я не знаю, что тебе ответить, ты ввел неправильную комманду";
         var testBot = new Bot();
         assertEquals(new HelpCommand().returnAnswer(),answer1);
-        //assertEquals(testBot.getAnswerToCommand("/about", new Message()).stringOutput, answer2);
+        assertEquals(new AboutCommand().returnAnswer(), answer2);
         assertEquals(testBot.getAnswerToCommand("/asajla",new Message()).stringOutput, answer3);
     }
     @Test
