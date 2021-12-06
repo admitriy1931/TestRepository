@@ -6,8 +6,8 @@ public class ClothText implements Recommendation {
     @Override
     public String formOfRecommendation() {
 
-        String icon = Bot.Results.Icon;
-        String parseWeather = Bot.Results.tempPressClouds;
+        String icon = Bot.Results.ICON;
+        String parseWeather = Bot.Results.TEMP_PRESS_CLOUDS;
         String[] disparseWeather = parseWeather.split("\n");
         var temp = Double.parseDouble(disparseWeather[1]);
         var windy = Double.parseDouble(disparseWeather[9]);

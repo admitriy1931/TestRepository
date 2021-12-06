@@ -103,8 +103,8 @@ public class Bot extends TelegramLongPollingBot {
             var answerDic = CommandTable.getItem(commandTable, messageText);
 
             var recommendation = answerDic.Recommendation;
-            Results.tempPressClouds = answerDic.Result;
-            Results.Icon = answerDic.Icon;
+            Results.TEMP_PRESS_CLOUDS = answerDic.Result;
+            Results.ICON = answerDic.Icon;
 
             if (answerDic.Icon != null) {
                 SendPhoto(answerDic.Icon, message);
@@ -214,8 +214,8 @@ public class Bot extends TelegramLongPollingBot {
 
 
     public static class Results {
-        public static String tempPressClouds;
-        public static String Icon;
+        public static String TEMP_PRESS_CLOUDS;
+        public static String ICON;
     }
 
 }

@@ -1,6 +1,6 @@
 public final class Constants {
 
-  public final String CordinateRequestAnswer = "{\"lat\":64,\"lon\":64,\"timezone\":\"Asia/Yekaterinburg\",\"timezone_offset\":18000,\"current\":{\"dt\":1635680579," +
+  public final String CORDINATE_REQUEST_ANSWER = "{\"lat\":64,\"lon\":64,\"timezone\":\"Asia/Yekaterinburg\",\"timezone_offset\":18000,\"current\":{\"dt\":1635680579," +
             "\"sunrise\":1635650558,\"sunset\":1635679946,\"temp\":-9.19,\"feels_like\":-13.95,\"pressure\":1017,\"humidity\":78,\"dew_point" +
             "\":-11.98,\"uvi\":0,\"clouds\":87,\"visibility\":10000,\"wind_speed\":2.53,\"wind_deg\":110,\"wind_gust\":5.82,\"weather\":[{\"id" +
             "\":804,\"main\":\"Clouds\",\"description\":\"overcast clouds\",\"icon\":\"04n\"}]},\"hourly\":[{\"dt\":1635678000,\"temp\":-9.06," +
@@ -138,18 +138,18 @@ public final class Constants {
             "\":{\"day\":-4.28,\"night\":-4.63,\"eve\":-2.58,\"morn\":-3.15},\"pressure\":1006,\"humidity\":72,\"dew_point\":-5.79,\"wind_speed\":3.02,\"wind_deg" +
             "\":305,\"wind_gust\":9.1,\"weather\":[{\"id\":801,\"main\":\"Clouds\",\"description\":\"few clouds\",\"icon\":\"02d\"}],\"clouds\":21,\"pop\":0,\"uvi\":1}]}";
 
-  public final String SimpleWeatherRequestAnswer = "{\"coord\":{\"lon\":60.6125,\"lat\":56.8575},\"weather\":[{\"id\":500,\"main\":\"Rain\",\"description\":\"light rain\",\"icon\":" +
+  public final String SIMPLE_WEATHER_ANSWER = "{\"coord\":{\"lon\":60.6125,\"lat\":56.8575},\"weather\":[{\"id\":500,\"main\":\"Rain\",\"description\":\"light rain\",\"icon\":" +
           "\"10n\"}],\"base\":\"stations\",\"main\":{\"temp\":1.77,\"feels_like\":-3.2,\"temp_min\":1.77,\"temp_max\":1.77,\"pressure\":1013,\"humidity\":100},\"visibility\":10000," +
           "\"wind\":{\"speed\":6,\"deg\":300},\"rain\":{\"1h\":0.11},\"clouds\":{\"all\":90},\"dt\":1635620614,\"sys\":{\"type\":1,\"id\":8985,\"country\":\"RU\",\"sunrise\":1635649497," +
           "\"sunset\":1635682634},\"timezone\":18000,\"id\":1486209,\"name\":\"Ekaterinburg\",\"cod\":200}";
 
-  public final String IdRequestAnswer = "{\"coord\":{\"lon\":60.6125,\"lat\":56.8575},\"weather\":[{\"id\":803,\"main\":\"Clouds\",\"description\":" +
+  public final String ID_REQUEST_ANSWER = "{\"coord\":{\"lon\":60.6125,\"lat\":56.8575},\"weather\":[{\"id\":803,\"main\":\"Clouds\",\"description\":" +
           "\"broken clouds\",\"icon\":\"04d\"}],\"base\":\"stations\",\"main\":{\"temp\":277.92,\"feels_like\":274.2,\"temp_min\":277.92,\"temp_max" +
           "\":277.92,\"pressure\":1017,\"humidity\":81},\"visibility\":10000,\"wind\":{\"speed\":5,\"deg\":250},\"clouds\":{\"all\":75},\"dt\":1635678622,\"" +
           "sys\":{\"type\":1,\"id\":8985,\"country\":\"RU\",\"sunrise\":1635649497,\"sunset\":1635682634},\"timezone\":18000,\"id\":1486209,\"name\":" +
           "\"Ekaterinburg\",\"cod\":200}";
 
-  public final String IndRequestAnswer = "{\"coord\":{\"lon\":60.52,\"lat\":56.6892},\"weather\":[{\"id\":803,\"main\":\"Clouds\",\"description\":" +
+  public final String IND_REQUEST_ANSWER = "{\"coord\":{\"lon\":60.52,\"lat\":56.6892},\"weather\":[{\"id\":803,\"main\":\"Clouds\",\"description\":" +
           "\"broken clouds\",\"icon\":\"04d\"}],\"base\":\"stations\",\"main\":{\"temp\":4.62,\"feels_like\":1.39,\"temp_min\":4.62,\"temp_max\":4.62," +
           "\"pressure\":1017,\"humidity\":87},\"visibility\":10000,\"wind\":{\"speed\":4,\"deg\":240},\"clouds\":{\"all\":75},\"dt\":1635680247,\"sys\":{" +
           "\"type\":1,\"id\":8985,\"country\":\"RU\",\"sunrise\":1635649485,\"sunset\":1635682691},\"timezone\":18000,\"id\":0,\"name\":\"Горный Щит\",\"cod" +

@@ -1,4 +1,3 @@
-import advisor.ClothChooser;
 import commands.JsonParserResult;
 import commands.WeatherCommand;
 import org.junit.jupiter.api.Test;
@@ -9,7 +8,7 @@ public class RightWeatherAnswerTest {
     @Test
     void getRightWeatherAnswer() {
         var testsConstants = new Constants();
-        var jsonWeather = testsConstants.SimpleWeatherRequestAnswer;
+        var jsonWeather = testsConstants.SIMPLE_WEATHER_ANSWER;
         var parserResult = new JsonParserResult("1.77", "1013.0", "90.0", "light rain", "10n", "6.0").FormParserOutput();
         assertEquals(parserResult.stringOutput,
                 WeatherCommand.JSONParser(jsonWeather).FormParserOutput().stringOutput);
