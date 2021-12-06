@@ -30,6 +30,11 @@ public class Bot extends TelegramLongPollingBot {
     public Bot() {
     }
 
+    static String START_OF_PHOTOURL =
+            "http://openweathermap.org/img/wn/";
+    static String END_OF_PHOTOURL = "@2x.png";
+
+
     public static void main(String[] args) {
         ApiContextInitializer.init();
         TelegramBotsApi telegramBotsApi = new TelegramBotsApi();
@@ -60,15 +65,7 @@ public class Bot extends TelegramLongPollingBot {
 
             if (isFindIcon) {
                 splitAnswer = Arrays.copyOf(splitAnswer, splitAnswer.length - 2);
-                SendPhoto sendPhotoRequest = new SendPhoto();
-                sendPhotoRequest.setChatId(message.getChatId().toString());
-                var photoURL = "http://openweathermap.org/img/wn/" + icon + "@2x.png";
-                sendPhotoRequest.setPhoto(photoURL);
-                try {
-                    sendPhoto(sendPhotoRequest);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
+                SendPhoto(icon, message);
             }
             String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
             var textAnswer = new ParserOutput(messageTextResult, parserResult.recommendation);
@@ -110,15 +107,7 @@ public class Bot extends TelegramLongPollingBot {
             Results.Icon = answerDic.Icon;
 
             if (answerDic.Icon != null) {
-                SendPhoto sendPhotoRequest = new SendPhoto();
-                sendPhotoRequest.setChatId(message.getChatId().toString());
-                var photoURL = "http://openweathermap.org/img/wn/" + answerDic.Icon + "@2x.png";
-                sendPhotoRequest.setPhoto(photoURL);
-                try {
-                    sendPhoto(sendPhotoRequest);
-                } catch (TelegramApiException e) {
-                    e.printStackTrace();
-                }
+                SendPhoto(answerDic.Icon, message);
             }
             answer = answerDic.Result;
             return new ParserOutput(answer, recommendation);
@@ -128,6 +117,19 @@ public class Bot extends TelegramLongPollingBot {
         } else {
             answer = "Извини, я пока не умею веести свободный диалог((( Попробуй ввести комманду";
             return new ParserOutput(answer);
+        }
+    }
+
+    private void SendPhoto(String icon, Message message)
+    {
+        SendPhoto sendPhotoRequest = new SendPhoto();
+        sendPhotoRequest.setChatId(message.getChatId().toString());
+        var photoURL = START_OF_PHOTOURL + icon + END_OF_PHOTOURL;
+        sendPhotoRequest.setPhoto(photoURL);
+        try {
+            sendPhoto(sendPhotoRequest);
+        } catch (TelegramApiException e) {
+            e.printStackTrace();
         }
     }
 
@@ -175,7 +177,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public String getBotUsername() {
-        return "WeatherAssistant1931Bot";
+        return "weth_proj_bot";
     }
 
     @Override

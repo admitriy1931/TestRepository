@@ -2,7 +2,6 @@ package advisor;
 
 import advisor.types.WeatherType;
 
-import java.util.ArrayList;
 
 public class ClothChooser {
     public String head = "Шапку";
