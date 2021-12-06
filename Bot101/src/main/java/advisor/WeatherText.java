@@ -3,10 +3,10 @@ package advisor;
 import bot.Bot.Results;
 import commands.JsonParserResult;
 
-public class WeatherText implements Recommendation{
+public class WeatherText implements Recommendation {
     public String formOfRecommendation() {
         String icon = Results.ICON;
-        String parseWeather = Results.TEMP_PRESS_CLOUDS;
+        String parseWeather = Results.TEXT;
         String[] DisparseWeather = parseWeather.split("\n");
 
         var temperatureAnalysis = makeTemperatureAnalysis(DisparseWeather[1]);
@@ -15,6 +15,7 @@ public class WeatherText implements Recommendation{
 
         return String.format("За окном сегодня %s, на улице  облачность %s, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
     }
+
     public static String formRecommendation(JsonParserResult jsonParserResult) {
 
         var temperatureAnalysis = makeTemperatureAnalysis(jsonParserResult.temp);
@@ -26,8 +27,8 @@ public class WeatherText implements Recommendation{
 
     private static String makeIconAnalysis(String icon) {
         String result = "";
-        switch(icon.substring(0,2)){
-            case("11") :
+        switch (icon.substring(0, 2)) {
+            case ("11"):
                 result = "гроза";
                 break;
             case ("09"):
@@ -59,33 +60,33 @@ public class WeatherText implements Recommendation{
     }
 
     private static String makeCloudsAnalysis(String clouds) {
-        var valueClouds = Double.parseDouble(clouds)/10;
-        if(valueClouds <=1)
+        var valueClouds = Double.parseDouble(clouds) / 10;
+        if (valueClouds <= 1)
             return "нулевая";
-        if(valueClouds <=3)
+        if (valueClouds <= 3)
             return "малая";
-        if(valueClouds <=7)
+        if (valueClouds <= 7)
             return "переменчивая";
-        if(valueClouds <=9)
+        if (valueClouds <= 9)
             return "значительная";
-        if(valueClouds <=10)
+        if (valueClouds <= 10)
             return "сплошная";
         return "неопределенная";
     }
 
     private static String makeTemperatureAnalysis(String temp) {
         var valueTemp = Double.parseDouble(temp);
-        if(valueTemp <=-25)
+        if (valueTemp <= -25)
             return "ледяной ад";
-        if(valueTemp <=-10)
+        if (valueTemp <= -10)
             return "сильный холод";
-        if(valueTemp <=-5)
+        if (valueTemp <= -5)
             return "холод";
-        if(valueTemp <=5)
+        if (valueTemp <= 5)
             return "прохладно";
-        if(valueTemp <=15)
+        if (valueTemp <= 15)
             return "комфортная температура";
-        if(valueTemp <=25)
+        if (valueTemp <= 25)
             return "тепло";
         return "жара";
     }

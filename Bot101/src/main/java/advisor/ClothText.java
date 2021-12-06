@@ -7,11 +7,12 @@ public class ClothText implements Recommendation {
     public String formOfRecommendation() {
 
         String icon = Bot.Results.ICON;
-        String parseWeather = Bot.Results.TEMP_PRESS_CLOUDS;
-        String[] disparseWeather = parseWeather.split("\n");
-        var temp = Double.parseDouble(disparseWeather[1]);
-        var windy = Double.parseDouble(disparseWeather[9]);
-        var description = disparseWeather[11];
+
+        var previousAnswerData = Bot.Results.PARSER_RESULT;
+
+        var temp = Double.parseDouble(previousAnswerData.temp);
+        var windy = Double.parseDouble(previousAnswerData.wind);
+        var description = previousAnswerData.main;
         var chooser = new ClothChooser(temp, icon, windy, description);
 
         return "Сегодня в Ваш гардероб должны войти " + chooser.body + ", "

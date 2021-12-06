@@ -32,9 +32,11 @@ public class WeatherCommand implements BotCommand {
         var tempMin = ("" + jsonObj.getJSONObject("main").getDouble("temp_min"));
         var pressure = ("" + jsonObj.getJSONObject("main").getDouble("pressure"));
         var clouds = ("" + jsonObj.getJSONObject("clouds").getDouble("all"));
-        var main  = ("" + jsonObj.getJSONArray("weather").getJSONObject(0).getString("description"));
-        var icon = ("" + jsonObj.getJSONArray("weather").getJSONObject(0).getString("icon"));
-        var wind = (""+ jsonObj.getJSONObject("wind").getDouble("speed"));
+        var main = ("" + jsonObj.getJSONArray("weather")
+                .getJSONObject(0).getString("description"));
+        var icon = ("" + jsonObj.getJSONArray("weather")
+                .getJSONObject(0).getString("icon"));
+        var wind = ("" + jsonObj.getJSONObject("wind").getDouble("speed"));
         return new JsonParserResult(temp, pressure, clouds, main, icon, wind);
     }
 }

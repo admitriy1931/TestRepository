@@ -1,6 +1,7 @@
 package bot;
 
 import advisor.Recommendation;
+import commands.JsonParserResult;
 import commands.ParserOutput;
 import commands.SimpleBotCommand;
 import commands.WeatherCordCommand;
@@ -56,11 +57,21 @@ public class Bot extends TelegramLongPollingBot {
             var lat = location.getLatitude();
             var lon = location.getLongitude();
 
-            var parserResult = new WeatherCordCommand().returnAnswerToLocation(lat.toString(), lon.toString());
+            var parserResult =
+                    new WeatherCordCommand().returnAnswerToLocation(lat.toString(), lon.toString());
             var commandResult = parserResult.stringOutput;
 
             var splitAnswer = commandResult.split(System.lineSeparator());
             var icon = splitAnswer[splitAnswer.length - 1];
+            var item = new ResItem(true, parserResult.stringOutput, icon,
+                    parserResult.recommendation, parserResult.parserResult);
+
+
+            Results.TEXT = item.TextResult;
+            Results.ICON = item.Icon;
+            Results.PARSER_RESULT = parserResult.parserResult;
+
+
             var isFindIcon = icon.length() == 3;
 
             if (isFindIcon) {
@@ -68,7 +79,10 @@ public class Bot extends TelegramLongPollingBot {
                 SendPhoto(icon, message);
             }
             String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
-            var textAnswer = new ParserOutput(messageTextResult, parserResult.recommendation);
+            var textAnswer =
+                    new ParserOutput(messageTextResult, parserResult.recommendation, parserResult.parserResult);
+
+
             sendMsg(message, textAnswer, update);
 
         } else if (update.hasCallbackQuery()) {
@@ -100,17 +114,21 @@ public class Bot extends TelegramLongPollingBot {
         var commandTable = CommandTable.getTable();
 
         if (commandTable.containsKey(messageText.split(" ")[0])) {
-            var answerDic = CommandTable.getItem(commandTable, messageText);
+            var answerItem = CommandTable.getItem(commandTable, messageText);
 
-            var recommendation = answerDic.Recommendation;
-            Results.TEMP_PRESS_CLOUDS = answerDic.Result;
-            Results.ICON = answerDic.Icon;
+            var parserResult = answerItem.parserResult;
 
-            if (answerDic.Icon != null) {
-                SendPhoto(answerDic.Icon, message);
+            var recommendation = answerItem.Recommendation;
+
+            Results.TEXT = answerItem.TextResult;
+            Results.ICON = answerItem.Icon;
+            Results.PARSER_RESULT = answerItem.parserResult;
+
+            if (answerItem.Icon != null) {
+                SendPhoto(answerItem.Icon, message);
             }
-            answer = answerDic.Result;
-            return new ParserOutput(answer, recommendation);
+            answer = answerItem.TextResult;
+            return new ParserOutput(answer, recommendation, parserResult);
         } else if (messageText.indexOf('/') != -1) {
             answer = "Я не знаю, что тебе ответить, ты ввел неправильную комманду";
             return new ParserOutput(answer);
@@ -120,8 +138,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    private void SendPhoto(String icon, Message message)
-    {
+    private void SendPhoto(String icon, Message message) {
         SendPhoto sendPhotoRequest = new SendPhoto();
         sendPhotoRequest.setChatId(message.getChatId().toString());
         var photoURL = START_OF_PHOTOURL + icon + END_OF_PHOTOURL;
@@ -214,8 +231,9 @@ public class Bot extends TelegramLongPollingBot {
 
 
     public static class Results {
-        public static String TEMP_PRESS_CLOUDS;
+        public static String TEXT;
         public static String ICON;
+        public static JsonParserResult PARSER_RESULT;
     }
 
 }

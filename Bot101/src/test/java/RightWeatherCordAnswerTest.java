@@ -11,11 +11,11 @@ public class RightWeatherCordAnswerTest {
     void getRightWeatherCordAnswer() {
         var testConstants = new Constants();
         var jsonWeather =  testConstants.CORDINATE_REQUEST_ANSWER;
-
-        var result = Arrays.asList("temp: ", -9.19, "pressure: ", 1017.0, "clouds: ", 87.0, "icon", "04n");
-        var parserResult = new JsonParserResult("-9.19", "1017.0", "87.0","overcast clouds", "04n", "2.53").FormParserOutput();
+        var parserResult = new JsonParserResult("-9.19", "1017.0", "87.0",
+                "overcast clouds", "04n", "2.53").FormParserOutput();
                 assertEquals(parserResult.stringOutput,
                 WeatherCordCommand.JSONParser(jsonWeather).FormParserOutput().stringOutput);
-        //assertEquals(parserResult.recommendation,
+        assertEquals(parserResult.recommendation,
+                WeatherCordCommand.JSONParser(jsonWeather).FormParserOutput().recommendation);
     }
 }
