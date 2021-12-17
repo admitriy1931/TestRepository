@@ -4,7 +4,7 @@ import commands.JsonParserResult;
 
 public class Advisor {
 
-    public static String FormRecommendation(JsonParserResult jsonParserResult) {
+    public static String formRecommendation(JsonParserResult jsonParserResult) {
 
         var temperatureAnalysis = MakeTemperatureAnalysis(jsonParserResult.temp);
         var cloudsAnalysis = MakeCloudsAnalysis(jsonParserResult.clouds);

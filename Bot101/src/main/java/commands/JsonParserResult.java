@@ -33,7 +33,7 @@ public class JsonParserResult {
                             "description: " + System.lineSeparator() +
                             this.main + System.lineSeparator();
         var recommendation = WeatherText.formRecommendation(this);
-        var output = new ParserOutput(stringOutput, recommendation);
+        var output = new ParserOutput(stringOutput, recommendation, this);
         return output;
     }
 }

@@ -6,7 +6,7 @@ import commands.JsonParserResult;
 public class WeatherText implements Recommendation{
     public String formOfRecommendation() {
         String icon = Results.ICON;
-        String parseWeather = Results.TEMP_PRESS_CLOUDS;
+        String parseWeather = Results.TEXT;
         String[] DisparseWeather = parseWeather.split("\n");
 
         var temperatureAnalysis = makeTemperatureAnalysis(DisparseWeather[1]);

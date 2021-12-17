@@ -6,17 +6,18 @@ import advisor.WeatherText;
 
 
 import java.util.HashMap;
+import java.util.HashSet;
 
-public class ButtonAudioReplyTable {
-    private static final HashMap Table = constructConversationTable();
+public class ButtonAudioReplyHashMap {
+    private static final HashSet Set = constructAudioSet();
 
-    private static HashMap constructConversationTable() {
-        var conversationDic = new HashMap<String, Recommendation>();
+    private static HashSet constructAudioSet() {
+        var conversationSet = new HashSet<String>();
 
-        conversationDic.put("Audio", new WeatherText());
-        return conversationDic;
+        conversationSet.add("WeatherAudio");
+        return conversationSet;
     }
-    public static HashMap getTable() {
-        return Table;
+    public static HashSet getSet() {
+        return Set;
     }
 }
