@@ -15,6 +15,7 @@ public class ButtonAudioReplyHashMap {
         var conversationSet = new HashSet<String>();
 
         conversationSet.add("WeatherAudio");
+        conversationSet.add("ClothAudio");
         return conversationSet;
     }
     public static HashSet getSet() {
