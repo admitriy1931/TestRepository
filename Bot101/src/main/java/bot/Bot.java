@@ -5,6 +5,17 @@ import commands.JsonParserResult;
 import commands.ParserOutput;
 import commands.SimpleBotCommand;
 import commands.WeatherCordCommand;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.methods.send.SendVoice;
@@ -18,14 +29,15 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 
-import java.io.File;
-import java.io.IOException;
+import javax.sound.sampled.AudioFormat;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -110,7 +122,11 @@ public class Bot extends TelegramLongPollingBot {
             if (buttonTextReplyTable.containsKey(textAnalog)){
                 var recommendation = (Recommendation) buttonTextReplyTable.get(textAnalog);
                 var formulateRecommendation = recommendation.formOfRecommendation();
-                sendAudio(message, formulateRecommendation);
+                try {
+                    sendAudio(message, formulateRecommendation);
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
             }
 
             //sendAudio(message);
@@ -167,21 +183,57 @@ public class Bot extends TelegramLongPollingBot {
             return new ParserOutput(answer);
         }
     }
+    public void Tst(String recomendations, File file) throws UnsupportedEncodingException {
+        String iamToken ="t1.9euelZqLjc7MjomUk4zIypDOlpqJmO3rnpWayo6Lis-Lns6UnpuLzMrLkYnl8_d-Qgxy-e9eAHUf_t3z9z5xCXL5714AdR_-.t6pbRzRmlVEm8S7_FBv2jA5-_XtU0oOsjYPx8xQP5zt3xtxoT3pJyEIBvmN-axfzWRcebBPGJF7ux0_JYXI2Dw";
+        String folderId = "b1gp970jvso2v3gtgbqt";
+        String url = "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize";
+        HttpClient httpClient = HttpClients.createDefault();
 
-    private void sendAudio(Message message, String formulateRecommendation)
-    {
-        System.out.println();
+        HttpPost httppost = new HttpPost(url);
+        httppost.addHeader("Authorization", "Bearer " + iamToken);
+        List<NameValuePair> params = new ArrayList<NameValuePair>(2);
+        params.add(new BasicNameValuePair("text", recomendations));
+        params.add(new BasicNameValuePair("lang", "en-US"));
+        params.add(new BasicNameValuePair("folderId", folderId));
+        httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+        try{
+            //CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpResponse response = httpClient.execute(httppost);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            response.getEntity().writeTo(baos);
+
+            try{
+                byte[] bytes = baos.toByteArray();
+                FileOutputStream f = new FileOutputStream(file);
+                f.write(bytes, 0, bytes.length);
+            }
+            catch(IOException ex){
+
+                System.out.println(ex.getMessage());
+            }
+            //System.out.println(EntityUtils.toString(response.getEntity()));
+
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    private void sendAudio(Message message, String formulateRecommendation) throws UnsupportedEncodingException {
+        //System.out.println();
 
         var sendVoice = new SendVoice();
         sendVoice.setChatId(message.getChatId());
+        File file = new File("C:\\Tokens\\file.ogg");
+        Tst(formulateRecommendation,file);
+        sendVoice.setNewVoice(file);
+
 
         //var recommendationStr = recommendation.formOfRecommendation();
-        System.out.println(formulateRecommendation);
-
-        //sendVoice.setNewVoice(new File("C:\\Users\\Artem\\Downloads\\Sample.ogg"));
-        sendVoice.setVoice("afaf");
-
-
+        //System.out.println(formulateRecommendation);
         try {
             sendVoice(sendVoice);
         } catch (TelegramApiException e) {
