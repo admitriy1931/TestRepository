@@ -7,7 +7,7 @@ import advisor.WeatherText;
 
 import java.util.HashMap;
 
-public class RecommendationTable {
+public class ButtonReplyTable {
     private static final HashMap Table = constructConversationTable();
 
     private static HashMap constructConversationTable() {
