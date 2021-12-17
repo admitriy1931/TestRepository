@@ -184,6 +184,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
     public void Tst(String recomendations, File file) throws UnsupportedEncodingException {
+
         String iamToken ="t1.9euelZqLjc7MjomUk4zIypDOlpqJmO3rnpWayo6Lis-Lns6UnpuLzMrLkYnl8_d-Qgxy-e9eAHUf_t3z9z5xCXL5714AdR_-.t6pbRzRmlVEm8S7_FBv2jA5-_XtU0oOsjYPx8xQP5zt3xtxoT3pJyEIBvmN-axfzWRcebBPGJF7ux0_JYXI2Dw";
         String folderId = "b1gp970jvso2v3gtgbqt";
         String url = "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize";
@@ -193,33 +194,28 @@ public class Bot extends TelegramLongPollingBot {
         httppost.addHeader("Authorization", "Bearer " + iamToken);
         List<NameValuePair> params = new ArrayList<NameValuePair>(2);
         params.add(new BasicNameValuePair("text", recomendations));
-        params.add(new BasicNameValuePair("lang", "en-US"));
+        params.add(new BasicNameValuePair("lang", "ru-RU"));
         params.add(new BasicNameValuePair("folderId", folderId));
         httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
         try{
-            //CloseableHttpClient httpClient = HttpClients.createDefault();
             HttpResponse response = httpClient.execute(httppost);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            response.getEntity().writeTo(baos);
-
+            ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
+            response.getEntity().writeTo(byteStream);
             try{
-                byte[] bytes = baos.toByteArray();
-                FileOutputStream f = new FileOutputStream(file);
-                f.write(bytes, 0, bytes.length);
+                byte[] bytes = byteStream.toByteArray();
+                FileOutputStream outputFile = new FileOutputStream(file);
+                outputFile.write(bytes, 0, bytes.length);
             }
             catch(IOException ex){
 
                 System.out.println(ex.getMessage());
             }
-            //System.out.println(EntityUtils.toString(response.getEntity()));
 
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
     private void sendAudio(Message message, String formulateRecommendation) throws UnsupportedEncodingException {
