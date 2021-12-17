@@ -7,11 +7,11 @@ import java.net.URL;
 
 
 public class WeatherAPI {
-    public static String GetWeatherString(String adress) {
+    public static String getWeatherString(String address) {
 
         try {
-            var urlAdress = new URL(adress);
-            HttpURLConnection httpConnection = (HttpURLConnection) urlAdress.openConnection();
+            var urlAddress = new URL(address);
+            HttpURLConnection httpConnection = (HttpURLConnection) urlAddress.openConnection();
             var bufferedReader = new BufferedReader(new InputStreamReader(httpConnection.getInputStream()));
             var buffer = new StringBuffer();
             String line;
@@ -25,28 +25,28 @@ public class WeatherAPI {
         }
     }
 
-    public static String GetContent(String city) {
+    public static String getContent(String city) {
         var address = "http://api.openweathermap.org/data/2.5/weather?q=" + city +
                 "&appid=0b906e32b1ec09ac418edf018294b72a&units=metric";
-        return GetWeatherString(address);
+        return getWeatherString(address);
     }
 
-    public static String GetContent(String inputLat, String inputLon) {
+    public static String getContent(String inputLat, String inputLon) {
         var address = "http://api.openweathermap.org/data/2.5/onecall?lat=" + inputLat + "&lon=" +
                 inputLon + "&appid=0b906e32b1ec09ac418edf018294b72a&units=metric";
-        return GetWeatherString(address);
+        return getWeatherString(address);
 
     }
 
-    public static String GetContentId(String idOfCity) {
+    public static String getContentId(String idOfCity) {
         var address = "http://api.openweathermap.org/data/2.5/weather?id=" + idOfCity +
                 "&appid=ece85b2e3f0fb126a238a176a7fe3925&units=metric";
-        return GetWeatherString(address);
+        return getWeatherString(address);
     }
 
-    public static String GetContentInd(String ind, String countryCode) {
+    public static String getContentInd(String ind, String countryCode) {
         var address = "http://api.openweathermap.org/data/2.5/weather?zip=" + ind + "," +
                 countryCode + "&appid=0b906e32b1ec09ac418edf018294b72a&units=metric";
-        return GetWeatherString(address);
+        return getWeatherString(address);
     }
 }

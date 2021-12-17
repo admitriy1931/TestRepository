@@ -17,18 +17,16 @@ public class JsonParserResult {
 
     public ParserOutput FormParserOutput() {
 
-        var stringOutput =  "temp: " + System.lineSeparator() +
-                            this.temp + System.lineSeparator() +
-                            "pressure: " + System.lineSeparator() +
-                            this.pressure + System.lineSeparator() +
-                            "clouds: " + System.lineSeparator() +
-                            this.clouds + System.lineSeparator() +
-                            "icon: " + System.lineSeparator() +
-                            this.icon + System.lineSeparator();
-        var recommendation = Advisor.FormRecommendation(this);
+        var stringOutput = "temp: " + System.lineSeparator() +
+                this.temp + System.lineSeparator() +
+                "pressure: " + System.lineSeparator() +
+                this.pressure + System.lineSeparator() +
+                "clouds: " + System.lineSeparator() +
+                this.clouds + System.lineSeparator() +
+                "icon: " + System.lineSeparator() +
+                this.icon + System.lineSeparator();
+        var recommendation = Advisor.formRecommendationFromJson(this);
 
-        var output = new ParserOutput(stringOutput, recommendation);
-        //return stringOutput;
-        return output;
+        return new ParserOutput(stringOutput, recommendation);
     }
 }

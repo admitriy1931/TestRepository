@@ -9,11 +9,11 @@ public class WeatherIdCommand implements BotCommand {
     }
 
     private static ParserOutput printAboutWeather(String id) {
-        var result = JSONParser(api.WeatherAPI.GetContentId(id));
+        var result = jsonParser(api.WeatherAPI.getContentId(id));
         return result.FormParserOutput();
     }
 
-    public static JsonParserResult JSONParser(String inputResult) {
+    public static JsonParserResult jsonParser(String inputResult) {
         var jsonObj = new JSONObject(inputResult);
         var temp = ("" + jsonObj.getJSONObject("main").getDouble("temp"));
         var pressure = ("" + jsonObj.getJSONObject("main").getDouble("pressure"));
