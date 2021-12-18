@@ -4,6 +4,7 @@ import commands.JsonParserResult;
 
 public class Advisor {
 
+    /*
     public static String formRecommendation(JsonParserResult jsonParserResult) {
 
         var temperatureAnalysis = MakeTemperatureAnalysis(jsonParserResult.temp);
@@ -13,8 +14,9 @@ public class Advisor {
         return String.format("За окном сегодня %s, на улице %s облачность, снаружи %s",
                 temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
     }
+     */
 
-    private static String MakeIconAnalysis(String icon) {
+    protected static String MakeIconAnalysis(String icon) {
         String result = "";
         switch(icon.substring(0,2)){
             case("11") :
@@ -48,7 +50,7 @@ public class Advisor {
         return result;
     }
 
-    private static String MakeCloudsAnalysis(String clouds) {
+    protected static String MakeCloudsAnalysis(String clouds) {
         var valueClouds = Double.parseDouble(clouds)/10;
         if(valueClouds <=1)
             return "нулевая";
@@ -63,7 +65,7 @@ public class Advisor {
         return "неопределенная";
     }
 
-    private static String MakeTemperatureAnalysis(String temp) {
+    protected static String MakeTemperatureAnalysis(String temp) {
         var valueTemp = Double.parseDouble(temp);
         if(valueTemp <=-25)
             return "ледяной ад";
