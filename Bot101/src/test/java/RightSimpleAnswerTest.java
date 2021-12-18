@@ -24,6 +24,6 @@ class RightSimpleAnswerTest {
     }
     @Test
     void getBotUsername() {
-        assertEquals(new Bot().getBotUsername(), "WeatherAssistant1931Bot");
+        assertEquals(new Bot().getBotUsername(), "weth_proj_bot");
     }
 }

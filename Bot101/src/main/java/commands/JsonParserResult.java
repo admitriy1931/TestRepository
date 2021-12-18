@@ -1,5 +1,8 @@
 package commands;
-import advisor.WeatherText;
+
+//import advisor.WeatherText;
+
+import advisor.Advisor;
 
 public class JsonParserResult {
     public String temp;
@@ -32,8 +35,7 @@ public class JsonParserResult {
                             this.wind + System.lineSeparator() +
                             "description: " + System.lineSeparator() +
                             this.main + System.lineSeparator();
-        var recommendation = WeatherText.formRecommendation(this);
-        var output = new ParserOutput(stringOutput, recommendation, this);
-        return output;
+        var recommendation = Advisor.formRecommendation(this);
+        return new ParserOutput(stringOutput, recommendation, this);
     }
 }

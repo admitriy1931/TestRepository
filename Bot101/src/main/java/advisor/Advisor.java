@@ -10,8 +10,8 @@ public class Advisor {
         var cloudsAnalysis = MakeCloudsAnalysis(jsonParserResult.clouds);
         var typeOfWeatherAnalysis = MakeIconAnalysis(jsonParserResult.icon);
 
-        return String.format("За окном сегодня %s, на улице %s облачность, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
-        //return "Рекомендуем одеться потеплее";
+        return String.format("За окном сегодня %s, на улице %s облачность, снаружи %s",
+                temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
     }
 
     private static String MakeIconAnalysis(String icon) {
