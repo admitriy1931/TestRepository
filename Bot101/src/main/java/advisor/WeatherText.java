@@ -12,6 +12,7 @@ public class WeatherText implements Recommendation {
         var cloudsAnalysis = WeatherAnalyzer.makeCloudsAnalysis(disparseWeather[5]);
         var typeOfWeatherAnalysis = WeatherAnalyzer.makeIconAnalysis(icon);
 
-        return String.format("За окном сегодня %s, на улице %s облачность, снаружи %s", temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
+        return String.format("За окном сегодня %s, на улице %s облачность, снаружи %s",
+                temperatureAnalysis, cloudsAnalysis, typeOfWeatherAnalysis);
     }
 }
