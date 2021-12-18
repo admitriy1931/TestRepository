@@ -63,6 +63,7 @@ class ClothChoosingTests {
         assertEquals(cloth.legs, "Джинсы");
         assertEquals(cloth.head, "Шапка");
         assertEquals(cloth.feets, "Походные ботинки");
+
     }
 
     @Test

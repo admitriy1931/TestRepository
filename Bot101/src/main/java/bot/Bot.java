@@ -185,19 +185,19 @@ public class Bot extends TelegramLongPollingBot {
     }
     public ByteArrayInputStream Tst(String recomendations) throws UnsupportedEncodingException {
 
-        String iamToken = "t1.9euelZqLjc7MjomUk4zIypDOlpqJmO3rnpWayo6Lis-Lns6UnpuLzMrLkYnl8_d-Qgxy-e9eAHUf_t3z9z5xCXL5714AdR_-.t6pbRzRmlVEm8S7_FBv2jA5-_XtU0oOsjYPx8xQP5zt3xtxoT3pJyEIBvmN-axfzWRcebBPGJF7ux0_JYXI2Dw";
+        String iamToken = "t1.9euelZqcmZqNl4qbjZ7GmZSOisnLxu3rnpWayo6Lis-Lns6UnpuLzMrLkYnl8_dGQQly-e8_HXdh_t3z9wZwBnL57z8dd2H-.gZH0pLJ3vVm9H4Jji9JPsGgbQeiJlUE2Vf5HQXVGjGM6fWCz2KYU62ZYBQwFQyYkLOkXiemX__5DGHxewwZ7BA";
         String folderId = "b1gp970jvso2v3gtgbqt";
         String url = "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize";
         HttpClient httpClient = HttpClients.createDefault();
-        HttpPost httppost = new HttpPost(url);
-        httppost.addHeader("Authorization", "Bearer " + iamToken);
+        HttpPost httpPost = new HttpPost(url);
+        httpPost.addHeader("Authorization", "Bearer " + iamToken);
         List<NameValuePair> params = new ArrayList(3);
         params.add(new BasicNameValuePair("text", recomendations));
         params.add(new BasicNameValuePair("lang", "ru-RU"));
         params.add(new BasicNameValuePair("folderId", folderId));
-        httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+        httpPost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
         try {
-            HttpResponse response = httpClient.execute(httppost);
+            HttpResponse response = httpClient.execute(httpPost);
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             response.getEntity().writeTo(byteStream);
             byte[] bytes = byteStream.toByteArray();
@@ -212,13 +212,14 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendAudio(Message message, String formulateRecommendation) throws UnsupportedEncodingException {
+    public void sendAudio(Message message, String formulateRecommendation) throws UnsupportedEncodingException {
         var sendVoice = new SendVoice();
         sendVoice.setChatId(message.getChatId());
-        ByteArrayInputStream bbb = Tst(formulateRecommendation);
-        sendVoice.setNewVoice("A",bbb);
+        ByteArrayInputStream byteStream = Tst(formulateRecommendation);
+        sendVoice.setNewVoice("WeatherAudio",byteStream);
         try {
             sendVoice(sendVoice);
+
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
@@ -253,12 +254,12 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendMsg(Message message, String striingAnswer) {
+    private void sendMsg(Message message, String stringAnswer) {
         SendMessage sendMessage = new SendMessage();
         sendMessage.enableMarkdown(true);
         sendMessage.setChatId(message.getChatId().toString());
         sendMessage.setReplyToMessageId(message.getMessageId());
-        sendMessage.setText(striingAnswer);
+        sendMessage.setText(stringAnswer);
         try {
             execute(sendMessage);
         } catch (TelegramApiException e) {
