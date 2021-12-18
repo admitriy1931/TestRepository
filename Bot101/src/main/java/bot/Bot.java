@@ -18,7 +18,9 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.io.ByteArrayInputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -26,8 +28,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-
 
 
 public class Bot extends TelegramLongPollingBot {
@@ -42,7 +42,6 @@ public class Bot extends TelegramLongPollingBot {
             "-axfzWRcebBPGJF7ux0_JYXI2Dw";
     static String FOLDER_ID = "b1gp970jvso2v3gtgbqt";
     static String API_URL = "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize";
-
 
 
     public static void main(String[] args) {
@@ -63,7 +62,7 @@ public class Bot extends TelegramLongPollingBot {
         var buttonTextReplyTable = ButtonTextReplyTable.getTable();
         var buttonAudioReplyesHashMap = ButtonAudioReplyHashMap.getSet();
 
-        if (message == null){
+        if (message == null) {
             System.out.println("null message");
             return;
         }
@@ -113,7 +112,7 @@ public class Bot extends TelegramLongPollingBot {
             }
         } else if (buttonAudioReplyesHashMap.contains(message.getText())) {
             var textAnalog = message.getText().replace("Audio", "Text");
-            if (buttonTextReplyTable.containsKey(textAnalog)){
+            if (buttonTextReplyTable.containsKey(textAnalog)) {
                 var recommendation = (Recommendation) buttonTextReplyTable.get(textAnalog);
                 var formulateRecommendation = recommendation.formOfRecommendation();
                 try {
@@ -121,8 +120,7 @@ public class Bot extends TelegramLongPollingBot {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-            }
-            else
+            } else
                 System.out.println("NOT ENOUGH INFORMATION");
 
         } else if (conversationTable.containsKey(message.getText())) {
@@ -139,8 +137,7 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public ParserOutput getAnswerToCommand(String messageText, Message message)
-    {
+    public ParserOutput getAnswerToCommand(String messageText, Message message) {
         String answer;
 
         var commandTable = CommandTable.getTable();
@@ -175,7 +172,7 @@ public class Bot extends TelegramLongPollingBot {
         voiceToSend.setChatId(message.getChatId());
         ByteArrayInputStream audioRecommendation = new Converter().convertStringToAudio(formulateRecommendation,
                 YANDEX_TOKEN, FOLDER_ID, API_URL);
-        voiceToSend.setNewVoice("Answer",audioRecommendation);
+        voiceToSend.setNewVoice("Answer", audioRecommendation);
         try {
             sendVoice(voiceToSend);
         } catch (TelegramApiException e) {
@@ -276,8 +273,7 @@ public class Bot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setKeyboard(keyboard);
     }
 
-    private KeyboardRow addKeyboardRow(String buttonText)
-    {
+    private KeyboardRow addKeyboardRow(String buttonText) {
         KeyboardRow keyboardRow = new KeyboardRow();
         keyboardRow.add(new KeyboardButton(buttonText));
         return keyboardRow;

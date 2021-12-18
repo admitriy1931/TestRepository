@@ -1,4 +1,5 @@
 package bot;
+
 import java.util.HashSet;
 
 public class ButtonAudioReplyHashMap {
@@ -11,6 +12,7 @@ public class ButtonAudioReplyHashMap {
         conversationSet.add("ClothAudio");
         return conversationSet;
     }
+
     public static HashSet<String> getSet() {
         return Set;
     }

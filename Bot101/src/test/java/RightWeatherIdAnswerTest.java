@@ -10,7 +10,7 @@ public class RightWeatherIdAnswerTest {
         var testsConstants = new Constants();
         var jsonWeather = testsConstants.ID_REQUEST_ANSWER;
         var parserResult = new JsonParserResult("277.92", "1017.0",
-                "75.0","broken clouds", "04d",  "5.0").FormParserOutput();
+                "75.0", "broken clouds", "04d", "5.0").FormParserOutput();
         assertEquals(parserResult.stringOutput,
                 WeatherIdCommand.JSONParser(jsonWeather).FormParserOutput().stringOutput);
         assertEquals(parserResult.recommendation,

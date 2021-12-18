@@ -24,8 +24,7 @@ public class ClothChooser {
         }
     }
 
-    public ClothChooser(String head, String body, String legs, String feets)
-    {
+    public ClothChooser(String head, String body, String legs, String feets) {
         this.head = head;
         this.body = body;
         this.legs = legs;
