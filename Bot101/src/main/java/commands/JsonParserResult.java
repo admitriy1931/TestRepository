@@ -1,5 +1,6 @@
 package commands;
-import advisor.WeatherText;
+
+import advisor.WeatherAnalyzer;
 
 public class JsonParserResult {
     public String temp;
@@ -20,20 +21,19 @@ public class JsonParserResult {
 
     public ParserOutput FormParserOutput() {
 
-        var stringOutput =  "temp: " + System.lineSeparator() +
-                            this.temp + System.lineSeparator() +
-                            "pressure: " + System.lineSeparator() +
-                            this.pressure + System.lineSeparator() +
-                            "clouds: " + System.lineSeparator() +
-                            this.clouds + System.lineSeparator() +
-                            "icon: " + System.lineSeparator() +
-                            this.icon + System.lineSeparator() +
-                            "wind: " + System.lineSeparator() +
-                            this.wind + System.lineSeparator() +
-                            "description: " + System.lineSeparator() +
-                            this.main + System.lineSeparator();
-        var recommendation = WeatherText.formRecommendation(this);
-        var output = new ParserOutput(stringOutput, recommendation, this);
-        return output;
+        var stringOutput = "temp: " + System.lineSeparator() +
+                this.temp + System.lineSeparator() +
+                "pressure: " + System.lineSeparator() +
+                this.pressure + System.lineSeparator() +
+                "clouds: " + System.lineSeparator() +
+                this.clouds + System.lineSeparator() +
+                "icon: " + System.lineSeparator() +
+                this.icon + System.lineSeparator() +
+                "wind: " + System.lineSeparator() +
+                this.wind + System.lineSeparator() +
+                "description: " + System.lineSeparator() +
+                this.main + System.lineSeparator();
+        var recommendation = WeatherAnalyzer.formRecommendationForJSON(this);
+        return new ParserOutput(stringOutput, recommendation, this);
     }
 }

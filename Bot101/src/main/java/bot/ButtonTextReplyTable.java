@@ -8,9 +8,9 @@ import advisor.WeatherText;
 import java.util.HashMap;
 
 public class ButtonTextReplyTable {
-    private static final HashMap Table = constructConversationTable();
+    private static final HashMap<String, Recommendation> Table = constructConversationTable();
 
-    private static HashMap constructConversationTable() {
+    private static HashMap<String, Recommendation> constructConversationTable() {
         var conversationDic = new HashMap<String, Recommendation>();
 
         conversationDic.put("WeatherText", new WeatherText());
@@ -18,7 +18,7 @@ public class ButtonTextReplyTable {
         return conversationDic;
     }
 
-    public static HashMap getTable() {
+    public static HashMap<String, Recommendation> getTable() {
         return Table;
     }
 }

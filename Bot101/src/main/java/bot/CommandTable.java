@@ -9,13 +9,13 @@ import commands.WeatherCommand;
 import java.util.HashMap;
 
 public class CommandTable {
-    private static final HashMap Table = constructHashMap();
+    private static final HashMap<String, BotCommand> Table = constructHashMap();
 
-    public static HashMap getTable() {
+    public static HashMap<String, BotCommand> getTable() {
         return Table;
     }
 
-    private static HashMap constructHashMap() {
+    private static HashMap<String, BotCommand> constructHashMap() {
         var commandDic = new HashMap<String, BotCommand>();
         commandDic.put("/weather", new WeatherCommand());
         commandDic.put("/weatherCord", new WeatherCordCommand());
@@ -24,7 +24,7 @@ public class CommandTable {
         return commandDic;
     }
 
-    public static ResItem getItem(HashMap commandTable,
+    public static ResItem getItem(HashMap<String, BotCommand> commandTable,
                                   String messageText) {
         var result = (BotCommand) commandTable.get(messageText.split(" ")[0]);
         var resultOutput = result.returnAnswer(messageText);

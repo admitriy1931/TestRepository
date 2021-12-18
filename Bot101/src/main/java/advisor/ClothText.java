@@ -7,7 +7,6 @@ public class ClothText implements Recommendation {
     public String formOfRecommendation() {
 
 
-
         String icon = Bot.Results.ICON;
         var previousAnswerData = Bot.Results.PARSER_RESULT;
 
