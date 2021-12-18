@@ -5,17 +5,6 @@ import commands.JsonParserResult;
 import commands.ParserOutput;
 import commands.SimpleBotCommand;
 import commands.WeatherCordCommand;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.methods.send.SendVoice;
@@ -29,15 +18,15 @@ import org.telegram.telegrambots.exceptions.TelegramApiException;
 import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 
-import javax.sound.sampled.AudioFormat;
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.UnsupportedEncodingException;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -50,6 +39,12 @@ public class Bot extends TelegramLongPollingBot {
     static String START_OF_PHOTOURL =
             "http://openweathermap.org/img/wn/";
     static String END_OF_PHOTOURL = "@2x.png";
+
+    static String YANDEX_TOKEN = "t1.9euelZqcmZqNl4qbjZ7GmZSOisnLxu3rnpWayo6Lis" +
+            "-Lns6UnpuLzMrLkYnl8_dGQQly-e8_HXdh_t3z9wZwBnL57z8dd2H-" +
+            ".gZH0pLJ3vVm9H4Jji9JPsGgbQeiJlUE2Vf5HQXVGjGM6fWCz2KYU62ZYBQwFQyYkLOkXiemX__5DGHxewwZ7BA";
+    static String FOLDER_ID = "b1gp970jvso2v3gtgbqt";
+    static String API_URL = "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize";
 
 
     public static void main(String[] args) {
@@ -114,9 +109,6 @@ public class Bot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
 
-        //}else if (message.getText().equals("Audio")){
-            //sendAudio(message);
-
         } else if (buttonAudioReplyesHashMap.contains(message.getText())) {
             var textAnalog = message.getText().replace("Audio", "Text");
             if (buttonTextReplyTable.containsKey(textAnalog)){
@@ -128,8 +120,6 @@ public class Bot extends TelegramLongPollingBot {
                     e.printStackTrace();
                 }
             }
-
-            //sendAudio(message);
             else
                 System.out.println("NOT ENOUGH INFORMATION");
 
@@ -137,7 +127,6 @@ public class Bot extends TelegramLongPollingBot {
             var simpleCommand = (SimpleBotCommand) conversationTable.get(message.getText());
             sendMsg(message, simpleCommand.returnAnswer());
         } else if (buttonTextReplyTable.containsKey(message.getText())) {
-            //System.out.println(buttonTextReplyTable.get(message.getText()));
             var recommendation = (Recommendation) buttonTextReplyTable.get(message.getText());
 
             var formulateRecommendation = recommendation.formOfRecommendation();
@@ -183,6 +172,9 @@ public class Bot extends TelegramLongPollingBot {
             return new ParserOutput(answer);
         }
     }
+
+
+    /*
     public ByteArrayInputStream Tst(String recomendations) throws UnsupportedEncodingException {
 
         String iamToken = "t1.9euelZqcmZqNl4qbjZ7GmZSOisnLxu3rnpWayo6Lis-Lns6UnpuLzMrLkYnl8_dGQQly-e8_HXdh_t3z9wZwBnL57z8dd2H-.gZH0pLJ3vVm9H4Jji9JPsGgbQeiJlUE2Vf5HQXVGjGM6fWCz2KYU62ZYBQwFQyYkLOkXiemX__5DGHxewwZ7BA";
@@ -211,11 +203,13 @@ public class Bot extends TelegramLongPollingBot {
             return  null;
         }
     }
+     */
 
     public void sendAudio(Message message, String formulateRecommendation) throws UnsupportedEncodingException {
         var sendVoice = new SendVoice();
         sendVoice.setChatId(message.getChatId());
-        ByteArrayInputStream byteStream = Tst(formulateRecommendation);
+        ByteArrayInputStream byteStream = Converter.convertStringToAudio(formulateRecommendation,
+                YANDEX_TOKEN, FOLDER_ID, API_URL);
         sendVoice.setNewVoice("WeatherAudio",byteStream);
         try {
             sendVoice(sendVoice);

@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Converter {
-    public ByteArrayInputStream convertStringToAudio(String recommendations, String yandexToken, String folderId,
+    public static ByteArrayInputStream convertStringToAudio(String recommendations, String yandexToken, String folderId,
                                                      String apiUrl) throws UnsupportedEncodingException {
         HttpClient httpClient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(apiUrl);
