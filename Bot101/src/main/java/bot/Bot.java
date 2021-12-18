@@ -34,9 +34,9 @@ public class Bot extends TelegramLongPollingBot {
     public Bot() {
     }
 
-    static String START_OF_PHOTOURL =
+    static String START_OF_PHOTO_URL =
             "http://openweathermap.org/img/wn/";
-    static String END_OF_PHOTOURL = "@2x.png";
+    static String END_OF_PHOTO_URL = "@2x.png";
     static String YANDEX_TOKEN = "t1.9euelZqLjc7MjomUk4zIypDOlpqJmO3rnpWayo6Lis-Lns6UnpuLzMrLkYnl8_d-Qgxy" +
             "-e9eAHUf_t3z9z5xCXL5714AdR_-.t6pbRzRmlVEm8S7_FBv2jA5-_XtU0oOsjYPx8xQP5zt3xtxoT3pJyEIBvmN" +
             "-axfzWRcebBPGJF7ux0_JYXI2Dw";
@@ -175,7 +175,6 @@ public class Bot extends TelegramLongPollingBot {
         voiceToSend.setChatId(message.getChatId());
         ByteArrayInputStream audioRecommendation = new Converter().convertStringToAudio(formulateRecommendation,
                 YANDEX_TOKEN, FOLDER_ID, API_URL);
-        //System.out.println(audioRecommendation.toString());
         voiceToSend.setNewVoice("Answer",audioRecommendation);
         try {
             sendVoice(voiceToSend);
@@ -187,7 +186,7 @@ public class Bot extends TelegramLongPollingBot {
     private void sendPhoto(String icon, Message message) {
         SendPhoto sendPhotoRequest = new SendPhoto();
         sendPhotoRequest.setChatId(message.getChatId().toString());
-        var photoURL = START_OF_PHOTOURL + icon + END_OF_PHOTOURL;
+        var photoURL = START_OF_PHOTO_URL + icon + END_OF_PHOTO_URL;
         sendPhotoRequest.setPhoto(photoURL);
         try {
             sendPhoto(sendPhotoRequest);
