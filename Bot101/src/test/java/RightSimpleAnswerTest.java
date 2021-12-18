@@ -3,6 +3,7 @@ import commands.HelpCommand;
 import org.junit.jupiter.api.Test;
 import bot.Bot;
 import org.telegram.telegrambots.api.objects.Message;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class RightSimpleAnswerTest {
@@ -17,13 +18,14 @@ class RightSimpleAnswerTest {
                 "Комманда разработки: Агафонов Дмитрий, Сливный Артём";
         var answer3 = "Я не знаю, что тебе ответить, ты ввел неправильную комманду";
         var testBot = new Bot();
-        assertEquals(new HelpCommand().returnAnswer(),answer1);
+        assertEquals(new HelpCommand().returnAnswer(), answer1);
         assertEquals(new AboutCommand().returnAnswer(), answer2);
-        assertEquals(testBot.getAnswerToCommand("/asajla",new Message()).stringOutput, answer3);
-        assertEquals(testBot.getAnswerToCommand("/kasjsbaaa",new Message()).stringOutput, answer3);
+        assertEquals(testBot.getAnswerToCommand("/asajla", new Message()).stringOutput, answer3);
+        assertEquals(testBot.getAnswerToCommand("/kasjsbaaa", new Message()).stringOutput, answer3);
     }
+
     @Test
     void getBotUsername() {
-        assertEquals(new Bot().getBotUsername(), "WeatherAssistant1931Bot");
+        assertEquals(new Bot().getBotUsername(), "weth_proj_bot");
     }
 }

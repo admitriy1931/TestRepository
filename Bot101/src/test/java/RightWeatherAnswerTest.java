@@ -9,7 +9,8 @@ public class RightWeatherAnswerTest {
     void getRightWeatherAnswer() {
         var testsConstants = new Constants();
         var jsonWeather = testsConstants.SIMPLE_WEATHER_ANSWER;
-        var parserResult = new JsonParserResult("1.77", "1013.0", "90.0", "light rain", "10n", "6.0").FormParserOutput();
+        var parserResult = new JsonParserResult("1.77", "1013.0",
+                "90.0", "light rain", "10n", "6.0").FormParserOutput();
         assertEquals(parserResult.stringOutput,
                 WeatherCommand.JSONParser(jsonWeather).FormParserOutput().stringOutput);
         assertEquals(parserResult.recommendation,
