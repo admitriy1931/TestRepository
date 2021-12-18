@@ -78,7 +78,8 @@ public class Bot extends TelegramLongPollingBot {
             var commandResult = parserResult.stringOutput;
 
             var splitAnswer = commandResult.split(System.lineSeparator());
-            var icon = splitAnswer[splitAnswer.length - 1];
+            var icon = parserResult.parserResult.icon;
+
             var item = new ResItem(true, parserResult.stringOutput, icon,
                     parserResult.recommendation, parserResult.parserResult);
 
@@ -88,12 +89,7 @@ public class Bot extends TelegramLongPollingBot {
             Results.PARSER_RESULT = parserResult.parserResult;
 
 
-            var isFindIcon = icon.length() == 3;
-
-            if (isFindIcon) {
-                splitAnswer = Arrays.copyOf(splitAnswer, splitAnswer.length - 2);
-                sendPhoto(icon, message);
-            }
+            sendPhoto(icon, message);
             String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
             var textAnswer =
                     new ParserOutput(messageTextResult, parserResult.recommendation, parserResult.parserResult);
