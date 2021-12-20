@@ -179,9 +179,16 @@ public class Bot extends TelegramLongPollingBot {
     public void sendAudio(Message message, String formulateRecommendation) throws IOException, InterruptedException, TimeoutException {
         var sendVoice = new SendVoice();
         YANDEX_TOKEN.UpdateYandexToken();
+        System.out.println(YANDEX_TOKEN.GetToken());
+        System.out.println(formulateRecommendation);
+        //System.out.println(FOLDER_ID);
+        //System.out.println(API_URL);
+
         sendVoice.setChatId(message.getChatId());
         ByteArrayInputStream byteStream = Converter.convertStringToAudio(formulateRecommendation, YANDEX_TOKEN.GetToken()
                 , FOLDER_ID, API_URL);
+        System.out.println(byteStream);
+
         sendVoice.setNewVoice("WeatherAudio", byteStream);
         try {
             sendVoice(sendVoice);

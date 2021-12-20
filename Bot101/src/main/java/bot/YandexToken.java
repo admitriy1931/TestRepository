@@ -19,10 +19,9 @@ public class YandexToken {
                     .interpreter("yc")
                     .command("iam","create-token")
                     .execute()
-                    .outputUTF8();
+                    .outputUTF8()
+                    .split("\n")[0];
             LAST_UPDATE_DATE = currentDate;
-            System.out.println(TOKEN);
-            System.out.println(LAST_UPDATE_DATE);
         }
     }
     public String GetToken(){
