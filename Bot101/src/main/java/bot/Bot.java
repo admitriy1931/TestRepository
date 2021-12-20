@@ -28,6 +28,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeoutException;
 
 
@@ -144,18 +145,29 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
+    private void TryGetCoordinates(String[] splitText, Long chatId) {
+        if (Objects.equals(splitText[0], "/weatherCord") && splitText.length == 3)
+        {
+            Results.UsersInformation.get(chatId).LAT = Double.parseDouble(splitText[1]);
+            Results.UsersInformation.get(chatId).LON = Double.parseDouble(splitText[2]);
+        }
+    }
 
     public ParserOutput getAnswerToCommand(String messageText, Message message, Long chatId) {
         String answer;
 
         var commandTable = CommandTable.getTable();
+        var splitText = messageText.split(" ");
+        if (commandTable.containsKey(splitText[0])) {
 
-        if (commandTable.containsKey(messageText.split(" ")[0])) {
+            TryGetCoordinates(splitText, chatId);
+
             var answerItem = CommandTable.getItem(commandTable, messageText);
 
             var parserResult = answerItem.parserResult;
 
             var recommendation = answerItem.Recommendation;
+
 
             Results.UsersInformation.get(chatId).TEXT = answerItem.TextResult;
             Results.UsersInformation.get(chatId).ICON = answerItem.Icon;
@@ -178,13 +190,10 @@ public class Bot extends TelegramLongPollingBot {
     public void sendAudio(Message message, String formulateRecommendation) throws IOException, InterruptedException, TimeoutException {
         var sendVoice = new SendVoice();
         YANDEX_TOKEN.UpdateYandexToken();
-        System.out.println(YANDEX_TOKEN.GetToken());
-        System.out.println(formulateRecommendation);
 
         sendVoice.setChatId(message.getChatId());
         ByteArrayInputStream byteStream = Converter.convertStringToAudio(formulateRecommendation,
                 YANDEX_TOKEN.GetToken(), FOLDER_ID, API_URL);
-        System.out.println(byteStream);
 
         sendVoice.setNewVoice("WeatherAudio", byteStream);
         try {
@@ -219,7 +228,7 @@ public class Bot extends TelegramLongPollingBot {
             sendPhoto(sender);
         }
         catch (Exception e){
-            System.out.println(e.getMessage());
+            e.printStackTrace();
         }
     }
 
@@ -312,17 +321,9 @@ public class Bot extends TelegramLongPollingBot {
 
     public static class Results {
         public static HashMap<Long, UserData> UsersInformation;
-        /*
-        public static String TEXT;
-        public static String ICON;
-        public static JsonParserResult PARSER_RESULT;
-
-        public static double LAT;
-        public static double LON;
-         */
     }
 
-    public class UserData{
+    public static class UserData{
         public String TEXT;
         public String ICON;
         public JsonParserResult PARSER_RESULT;
