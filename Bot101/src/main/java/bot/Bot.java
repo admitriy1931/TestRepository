@@ -30,8 +30,6 @@ import java.util.Arrays;
 import java.util.List;
 
 
-
-
 public class Bot extends TelegramLongPollingBot {
     public Bot() {
     }
@@ -99,7 +97,7 @@ public class Bot extends TelegramLongPollingBot {
 
             sendMsg(message, textAnswer);
 
-        }else if (message == null){
+        } else if (message == null) {
             System.out.println("Null message");
         } else if (update.hasCallbackQuery()) {
             try {
@@ -113,7 +111,7 @@ public class Bot extends TelegramLongPollingBot {
 
         } else if (buttonAudioReplyesHashMap.contains(message.getText())) {
             var textAnalog = message.getText().replace("Audio", "Text");
-            if (buttonTextReplyTable.containsKey(textAnalog)){
+            if (buttonTextReplyTable.containsKey(textAnalog)) {
                 var recommendation = (Recommendation) buttonTextReplyTable.get(textAnalog);
                 var formulateRecommendation = recommendation.formOfRecommendation();
                 try {
@@ -121,8 +119,7 @@ public class Bot extends TelegramLongPollingBot {
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }
-            }
-            else
+            } else
                 System.out.println("NOT ENOUGH INFORMATION");
 
         } else if (conversationTable.containsKey(message.getText())) {
@@ -140,12 +137,7 @@ public class Bot extends TelegramLongPollingBot {
     }
 
 
-
-
-
-
-    public ParserOutput getAnswerToCommand(String messageText, Message message)
-    {
+    public ParserOutput getAnswerToCommand(String messageText, Message message) {
         String answer;
 
         var commandTable = CommandTable.getTable();
@@ -180,7 +172,7 @@ public class Bot extends TelegramLongPollingBot {
         sendVoice.setChatId(message.getChatId());
         ByteArrayInputStream byteStream = Converter.convertStringToAudio(formulateRecommendation,
                 YANDEX_TOKEN, FOLDER_ID, API_URL);
-        sendVoice.setNewVoice("WeatherAudio",byteStream);
+        sendVoice.setNewVoice("WeatherAudio", byteStream);
         try {
             sendVoice(sendVoice);
 
