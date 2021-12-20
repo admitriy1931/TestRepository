@@ -21,7 +21,7 @@ public class Converter {
         HttpClient httpClient = HttpClients.createDefault();
         HttpPost httppost = new HttpPost(apiUrl);
         httppost.addHeader("Authorization", "Bearer " + yandexToken);
-        List<NameValuePair> params = new ArrayList(3);
+        List<NameValuePair> params = new ArrayList<>(3);
         params.add(new BasicNameValuePair("text", recommendations));
         params.add(new BasicNameValuePair("lang", "ru-RU"));
         params.add(new BasicNameValuePair("folderId", folderId));

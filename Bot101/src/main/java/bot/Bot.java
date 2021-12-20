@@ -20,14 +20,12 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 
 import java.io.ByteArrayInputStream;
-import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -80,7 +78,6 @@ public class Bot extends TelegramLongPollingBot {
             var commandResult = parserResult.stringOutput;
 
             var splitAnswer = commandResult.split(System.lineSeparator());
-            //var icon = splitAnswer[splitAnswer.length - 1];
             var icon = parserResult.parserResult.icon;
             var item = new ResItem(true, parserResult.stringOutput, icon,
                     parserResult.recommendation, parserResult.parserResult);
@@ -90,15 +87,6 @@ public class Bot extends TelegramLongPollingBot {
             Results.ICON = item.Icon;
             Results.PARSER_RESULT = parserResult.parserResult;
 
-
-            /*
-            var isFindIcon = icon.length() == 3;
-
-            if (isFindIcon) {
-                splitAnswer = Arrays.copyOf(splitAnswer, splitAnswer.length - 2);
-                sendPhoto(icon, message);
-            }
-             */
             sendPhoto(icon, message);
             String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
             var textAnswer =
@@ -218,14 +206,14 @@ public class Bot extends TelegramLongPollingBot {
 
     private void sendPhotoAsReply(Message message, String iconURL, ImageReply imageReply){
         try {
-            imageReply.getReply(iconURL,Results.LON, Results.LAT);
+            var replyImageBytes = imageReply.getReply(iconURL,Results.LON, Results.LAT);
             SendPhoto sender = new SendPhoto();
             sender.setChatId(message.getChatId().toString());
-            sender.setNewPhoto(new File("C:\\GitHub\\big.png"));
+            sender.setNewPhoto("ReplyPhoto", new ByteArrayInputStream(replyImageBytes));
             sendPhoto(sender);
         }
         catch (Exception e){
-            System.out.println(e);
+            System.out.println(e.getMessage());
         }
     }
 

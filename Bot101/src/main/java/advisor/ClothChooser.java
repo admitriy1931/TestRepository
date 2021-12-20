@@ -11,7 +11,7 @@ public class ClothChooser {
 
     public ClothChooser(Double temperature, String type, Double wind, String description) {
         var listOfTypes = new ListOfTypes().List;
-        ClothChooser result = null;
+        ClothChooser result;
         for (WeatherType weatherType : listOfTypes) {
             result = weatherType.getClothesNames(temperature, type, wind, description);
             if (result != null) {
