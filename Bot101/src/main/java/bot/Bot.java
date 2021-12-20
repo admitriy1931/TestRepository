@@ -5,6 +5,7 @@ import commands.JsonParserResult;
 import commands.ParserOutput;
 import commands.SimpleBotCommand;
 import commands.WeatherCordCommand;
+import imageReplyes.ImageReply;
 import org.telegram.telegrambots.api.methods.send.SendMessage;
 import org.telegram.telegrambots.api.methods.send.SendPhoto;
 import org.telegram.telegrambots.api.methods.send.SendVoice;
@@ -19,7 +20,7 @@ import org.telegram.telegrambots.ApiContextInitializer;
 import org.telegram.telegrambots.TelegramBotsApi;
 
 import java.io.ByteArrayInputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -38,10 +39,6 @@ public class Bot extends TelegramLongPollingBot {
     static String START_OF_PHOTOURL =
             "http://openweathermap.org/img/wn/";
     static String END_OF_PHOTOURL = "@2x.png";
-
-    //static String YANDEX_TOKEN = "t1.9euelZqcmZqNl4qbjZ7GmZSOisnLxu3rnpWayo6Lis" +
-           // "-Lns6UnpuLzMrLkYnl8_dGQQly-e8_HXdh_t3z9wZwBnL57z8dd2H-" +
-           // ".gZH0pLJ3vVm9H4Jji9JPsGgbQeiJlUE2Vf5HQXVGjGM6fWCz2KYU62ZYBQwFQyYkLOkXiemX__5DGHxewwZ7BA";
     static String FOLDER_ID = "b1gp970jvso2v3gtgbqt";
     static YandexToken YANDEX_TOKEN = new YandexToken();
     static String API_URL = "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize";
@@ -64,20 +61,27 @@ public class Bot extends TelegramLongPollingBot {
         var message = update.getMessage();
         var conversationTable = ConversationTable.getTable();
         var buttonTextReplyTable = ButtonTextReplyTable.getTable();
-        var buttonAudioReplyesHashMap = ButtonAudioReplyHashMap.getSet();
+        var buttonAudioReplyesHashSet = ButtonAudioReplyHashMap.getSet();
+        var buttonImageReplyTable = ButtonImageReplyTable.getTable();
 
         if (message != null && message.hasLocation()) {
-
             var location = message.getLocation();
             var lat = location.getLatitude();
             var lon = location.getLongitude();
+
+
+            Results.LAT = lat;
+            Results.LON = lon;
+
+
 
             var parserResult =
                     new WeatherCordCommand().returnAnswerToLocation(lat.toString(), lon.toString());
             var commandResult = parserResult.stringOutput;
 
             var splitAnswer = commandResult.split(System.lineSeparator());
-            var icon = splitAnswer[splitAnswer.length - 1];
+            //var icon = splitAnswer[splitAnswer.length - 1];
+            var icon = parserResult.parserResult.icon;
             var item = new ResItem(true, parserResult.stringOutput, icon,
                     parserResult.recommendation, parserResult.parserResult);
 
@@ -87,12 +91,15 @@ public class Bot extends TelegramLongPollingBot {
             Results.PARSER_RESULT = parserResult.parserResult;
 
 
+            /*
             var isFindIcon = icon.length() == 3;
 
             if (isFindIcon) {
                 splitAnswer = Arrays.copyOf(splitAnswer, splitAnswer.length - 2);
-                SendPhoto(icon, message);
+                sendPhoto(icon, message);
             }
+             */
+            sendPhoto(icon, message);
             String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
             var textAnswer =
                     new ParserOutput(messageTextResult, parserResult.recommendation, parserResult.parserResult);
@@ -112,20 +119,19 @@ public class Bot extends TelegramLongPollingBot {
                 e.printStackTrace();
             }
 
-        } else if (buttonAudioReplyesHashMap.contains(message.getText())) {
+        } else if (buttonImageReplyTable.containsKey(message.getText())){
+            var iconURL = START_OF_PHOTOURL + Results.ICON + END_OF_PHOTOURL;
+            sendPhotoAsReply(message, iconURL, buttonImageReplyTable.get(message.getText()));
+
+
+        }else if (buttonAudioReplyesHashSet.contains(message.getText())) {
             var textAnalog = message.getText().replace("Audio", "Text");
             if (buttonTextReplyTable.containsKey(textAnalog)) {
                 var recommendation = (Recommendation) buttonTextReplyTable.get(textAnalog);
                 var formulateRecommendation = recommendation.formOfRecommendation();
                 try {
                     sendAudio(message, formulateRecommendation);
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                } catch (TimeoutException e) {
+                } catch (InterruptedException | IOException | TimeoutException e) {
                     e.printStackTrace();
                 }
             } else
@@ -163,7 +169,7 @@ public class Bot extends TelegramLongPollingBot {
             Results.PARSER_RESULT = answerItem.parserResult;
 
             if (answerItem.Icon != null) {
-                SendPhoto(answerItem.Icon, message);
+                sendPhoto(answerItem.Icon, message);
             }
             answer = answerItem.TextResult;
             return new ParserOutput(answer, recommendation, parserResult);
@@ -181,12 +187,10 @@ public class Bot extends TelegramLongPollingBot {
         YANDEX_TOKEN.UpdateYandexToken();
         System.out.println(YANDEX_TOKEN.GetToken());
         System.out.println(formulateRecommendation);
-        //System.out.println(FOLDER_ID);
-        //System.out.println(API_URL);
 
         sendVoice.setChatId(message.getChatId());
-        ByteArrayInputStream byteStream = Converter.convertStringToAudio(formulateRecommendation, YANDEX_TOKEN.GetToken()
-                , FOLDER_ID, API_URL);
+        ByteArrayInputStream byteStream = Converter.convertStringToAudio(formulateRecommendation,
+                YANDEX_TOKEN.GetToken(), FOLDER_ID, API_URL);
         System.out.println(byteStream);
 
         sendVoice.setNewVoice("WeatherAudio", byteStream);
@@ -198,15 +202,30 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    private void SendPhoto(String icon, Message message) {
+    private void sendPhoto(String icon, Message message) {
         SendPhoto sendPhotoRequest = new SendPhoto();
         sendPhotoRequest.setChatId(message.getChatId().toString());
+
         var photoURL = START_OF_PHOTOURL + icon + END_OF_PHOTOURL;
+
         sendPhotoRequest.setPhoto(photoURL);
         try {
             sendPhoto(sendPhotoRequest);
         } catch (TelegramApiException e) {
             e.printStackTrace();
+        }
+    }
+
+    private void sendPhotoAsReply(Message message, String iconURL, ImageReply imageReply){
+        try {
+            imageReply.getReply(iconURL,Results.LON, Results.LAT);
+            SendPhoto sender = new SendPhoto();
+            sender.setChatId(message.getChatId().toString());
+            sender.setNewPhoto(new File("C:\\GitHub\\big.png"));
+            sendPhoto(sender);
+        }
+        catch (Exception e){
+            System.out.println(e);
         }
     }
 
@@ -282,25 +301,18 @@ public class Bot extends TelegramLongPollingBot {
         replyKeyboardMarkup.setOneTimeKeyboard(false);
         List<KeyboardRow> keyboard = new ArrayList<>();
 
-        KeyboardRow keyboardFirstRow = new KeyboardRow();
-        keyboardFirstRow.add(new KeyboardButton("WeatherText"));
-
-        KeyboardRow keyboardSecondRow = new KeyboardRow();
-        keyboardSecondRow.add(new KeyboardButton("ClothText"));
-
-        KeyboardRow keyboardThirdRow = new KeyboardRow();
-        keyboardThirdRow.add(new KeyboardButton("WeatherAudio"));
-
-        KeyboardRow keyboardFouthRow = new KeyboardRow();
-        keyboardThirdRow.add(new KeyboardButton("ClothAudio"));
-
-        keyboard.add(keyboardFirstRow);
-        keyboard.add(keyboardSecondRow);
-        keyboard.add(keyboardThirdRow);
-        keyboard.add(keyboardFouthRow);
-
-
+        keyboard.add(addSingleRow("WeatherText"));
+        keyboard.add(addSingleRow("ClothText"));
+        keyboard.add(addSingleRow("WeatherAudio"));
+        keyboard.add(addSingleRow("ClothAudio"));
+        keyboard.add(addSingleRow("GeoData"));
         replyKeyboardMarkup.setKeyboard(keyboard);
+    }
+
+    private KeyboardRow addSingleRow(String buttonText) {
+        KeyboardRow keyboardRow = new KeyboardRow();
+        keyboardRow.add(new KeyboardButton(buttonText));
+        return keyboardRow;
     }
 
 
@@ -308,6 +320,9 @@ public class Bot extends TelegramLongPollingBot {
         public static String TEXT;
         public static String ICON;
         public static JsonParserResult PARSER_RESULT;
+
+        public static double LAT;
+        public static double LON;
     }
 
 }
