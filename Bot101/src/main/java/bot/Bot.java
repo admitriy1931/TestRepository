@@ -28,6 +28,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 
 public class Bot extends TelegramLongPollingBot {
@@ -38,10 +39,11 @@ public class Bot extends TelegramLongPollingBot {
             "http://openweathermap.org/img/wn/";
     static String END_OF_PHOTOURL = "@2x.png";
 
-    static String YANDEX_TOKEN = "t1.9euelZqcmZqNl4qbjZ7GmZSOisnLxu3rnpWayo6Lis" +
-            "-Lns6UnpuLzMrLkYnl8_dGQQly-e8_HXdh_t3z9wZwBnL57z8dd2H-" +
-            ".gZH0pLJ3vVm9H4Jji9JPsGgbQeiJlUE2Vf5HQXVGjGM6fWCz2KYU62ZYBQwFQyYkLOkXiemX__5DGHxewwZ7BA";
+    //static String YANDEX_TOKEN = "t1.9euelZqcmZqNl4qbjZ7GmZSOisnLxu3rnpWayo6Lis" +
+           // "-Lns6UnpuLzMrLkYnl8_dGQQly-e8_HXdh_t3z9wZwBnL57z8dd2H-" +
+           // ".gZH0pLJ3vVm9H4Jji9JPsGgbQeiJlUE2Vf5HQXVGjGM6fWCz2KYU62ZYBQwFQyYkLOkXiemX__5DGHxewwZ7BA";
     static String FOLDER_ID = "b1gp970jvso2v3gtgbqt";
+    static YandexToken YANDEX_TOKEN = new YandexToken();
     static String API_URL = "https://tts.api.cloud.yandex.net/speech/v1/tts:synthesize";
 
 
@@ -58,6 +60,7 @@ public class Bot extends TelegramLongPollingBot {
 
     @Override
     public void onUpdateReceived(Update update) {
+
         var message = update.getMessage();
         var conversationTable = ConversationTable.getTable();
         var buttonTextReplyTable = ButtonTextReplyTable.getTable();
@@ -118,6 +121,12 @@ public class Bot extends TelegramLongPollingBot {
                     sendAudio(message, formulateRecommendation);
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (TimeoutException e) {
+                    e.printStackTrace();
                 }
             } else
                 System.out.println("NOT ENOUGH INFORMATION");
@@ -167,11 +176,12 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    public void sendAudio(Message message, String formulateRecommendation) throws UnsupportedEncodingException {
+    public void sendAudio(Message message, String formulateRecommendation) throws IOException, InterruptedException, TimeoutException {
         var sendVoice = new SendVoice();
+        YANDEX_TOKEN.UpdateYandexToken();
         sendVoice.setChatId(message.getChatId());
-        ByteArrayInputStream byteStream = Converter.convertStringToAudio(formulateRecommendation,
-                YANDEX_TOKEN, FOLDER_ID, API_URL);
+        ByteArrayInputStream byteStream = Converter.convertStringToAudio(formulateRecommendation, YANDEX_TOKEN.GetToken()
+                , FOLDER_ID, API_URL);
         sendVoice.setNewVoice("WeatherAudio", byteStream);
         try {
             sendVoice(sendVoice);
