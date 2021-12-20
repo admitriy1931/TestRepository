@@ -20,8 +20,8 @@ class RightSimpleAnswerTest {
         var testBot = new Bot();
         assertEquals(new HelpCommand().returnAnswer(), answer1);
         assertEquals(new AboutCommand().returnAnswer(), answer2);
-        assertEquals(testBot.getAnswerToCommand("/asajla", new Message()).stringOutput, answer3);
-        assertEquals(testBot.getAnswerToCommand("/kasjsbaaa", new Message()).stringOutput, answer3);
+        assertEquals(testBot.getAnswerToCommand("/asajla", new Message(), 0L).stringOutput, answer3);
+        assertEquals(testBot.getAnswerToCommand("/kasjsbaaa", new Message(), 0L).stringOutput, answer3);
     }
 
     @Test

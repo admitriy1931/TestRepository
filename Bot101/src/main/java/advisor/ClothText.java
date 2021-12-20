@@ -4,11 +4,11 @@ import bot.Bot;
 
 public class ClothText implements Recommendation {
     @Override
-    public String formOfRecommendation() {
+    public String formOfRecommendation(long chatId) {
 
 
-        String icon = Bot.Results.ICON;
-        var previousAnswerData = Bot.Results.PARSER_RESULT;
+        String icon = Bot.Results.UsersInformation.get(chatId).ICON;
+        var previousAnswerData = Bot.Results.UsersInformation.get(chatId).PARSER_RESULT;
 
         var temp = Double.parseDouble(previousAnswerData.temp);
         var windy = Double.parseDouble(previousAnswerData.wind);

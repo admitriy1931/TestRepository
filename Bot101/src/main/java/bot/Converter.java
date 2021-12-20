@@ -8,10 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,11 +23,16 @@ public class Converter {
         params.add(new BasicNameValuePair("lang", "ru-RU"));
         params.add(new BasicNameValuePair("folderId", folderId));
         httppost.setEntity(new UrlEncodedFormEntity(params, "UTF-8"));
+
         try {
             HttpResponse response = httpClient.execute(httppost);
             ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
             response.getEntity().writeTo(byteStream);
             byte[] bytes = byteStream.toByteArray();
+
+            FileOutputStream outputFile = new FileOutputStream("C:\\GitHub\\alfa.TXT");
+            outputFile.write(bytes, 0, bytes.length);
+
             return new ByteArrayInputStream(bytes);
         } catch (IOException e) {
             e.printStackTrace();

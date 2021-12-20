@@ -1,5 +1,6 @@
 package commands;
 
+import bot.Bot;
 import org.json.JSONObject;
 
 public class WeatherCordCommand implements BotCommand {
@@ -15,6 +16,8 @@ public class WeatherCordCommand implements BotCommand {
     }
 
     public ParserOutput returnAnswerToLocation(String lat, String lon) {
+        //Bot.Results.UsersInformation.get(chatId).LAT = lat;
+        //Bot.Results.UsersInformation.get(chatId).LON = lon;
         return printAboutWeather(lat, lon);
     }
 

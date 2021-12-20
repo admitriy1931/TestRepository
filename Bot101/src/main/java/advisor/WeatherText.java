@@ -3,9 +3,9 @@ package advisor;
 import bot.Bot.Results;
 
 public class WeatherText implements Recommendation {
-    public String formOfRecommendation() {
-        String icon = Results.ICON;
-        String parseWeather = Results.TEXT;
+    public String formOfRecommendation(long chatId) {
+        String icon = Results.UsersInformation.get(chatId).ICON;
+        String parseWeather = Results.UsersInformation.get(chatId).TEXT;
         String[] disparseWeather = parseWeather.split("\n");
 
         var temperatureAnalysis = WeatherAnalyzer.makeTemperatureAnalysis(disparseWeather[1]);

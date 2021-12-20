@@ -26,6 +26,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.TimeoutException;
 
@@ -50,6 +51,7 @@ public class Bot extends TelegramLongPollingBot {
         } catch (TelegramApiException e) {
             e.printStackTrace();
         }
+        Results.UsersInformation = new HashMap<>();
     }
 
 
@@ -57,19 +59,24 @@ public class Bot extends TelegramLongPollingBot {
     public void onUpdateReceived(Update update) {
 
         var message = update.getMessage();
+        var chatId = message.getChatId();
+
+        if (!Results.UsersInformation.containsKey(chatId))
+            Results.UsersInformation.put(chatId, new UserData());
+
         var conversationTable = ConversationTable.getTable();
         var buttonTextReplyTable = ButtonTextReplyTable.getTable();
         var buttonAudioReplyesHashSet = ButtonAudioReplyHashMap.getSet();
         var buttonImageReplyTable = ButtonImageReplyTable.getTable();
 
-        if (message != null && message.hasLocation()) {
+        if (message.hasLocation()) {
             var location = message.getLocation();
             var lat = location.getLatitude();
             var lon = location.getLongitude();
 
 
-            Results.LAT = lat;
-            Results.LON = lon;
+            Results.UsersInformation.get(chatId).LAT = lat;
+            Results.UsersInformation.get(chatId).LON = lon;
 
 
 
@@ -83,9 +90,9 @@ public class Bot extends TelegramLongPollingBot {
                     parserResult.recommendation, parserResult.parserResult);
 
 
-            Results.TEXT = item.TextResult;
-            Results.ICON = item.Icon;
-            Results.PARSER_RESULT = parserResult.parserResult;
+            Results.UsersInformation.get(chatId).TEXT = item.TextResult;
+            Results.UsersInformation.get(chatId).ICON = item.Icon;
+            Results.UsersInformation.get(chatId).PARSER_RESULT = parserResult.parserResult;
 
             sendPhoto(icon, message);
             String messageTextResult = String.join(System.lineSeparator(), splitAnswer);
@@ -95,8 +102,6 @@ public class Bot extends TelegramLongPollingBot {
 
             sendMsg(message, textAnswer);
 
-        } else if (message == null) {
-            System.out.println("Null message");
         } else if (update.hasCallbackQuery()) {
             try {
                 execute(new SendMessage().setText(
@@ -108,15 +113,15 @@ public class Bot extends TelegramLongPollingBot {
             }
 
         } else if (buttonImageReplyTable.containsKey(message.getText())){
-            var iconURL = START_OF_PHOTOURL + Results.ICON + END_OF_PHOTOURL;
-            sendPhotoAsReply(message, iconURL, buttonImageReplyTable.get(message.getText()));
+            var iconURL = START_OF_PHOTOURL + Results.UsersInformation.get(chatId).ICON + END_OF_PHOTOURL;
+            sendPhotoAsReply(message, iconURL, buttonImageReplyTable.get(message.getText()), chatId);
 
 
         }else if (buttonAudioReplyesHashSet.contains(message.getText())) {
             var textAnalog = message.getText().replace("Audio", "Text");
             if (buttonTextReplyTable.containsKey(textAnalog)) {
                 var recommendation = (Recommendation) buttonTextReplyTable.get(textAnalog);
-                var formulateRecommendation = recommendation.formOfRecommendation();
+                var formulateRecommendation = recommendation.formOfRecommendation(chatId);
                 try {
                     sendAudio(message, formulateRecommendation);
                 } catch (InterruptedException | IOException | TimeoutException e) {
@@ -131,16 +136,16 @@ public class Bot extends TelegramLongPollingBot {
         } else if (buttonTextReplyTable.containsKey(message.getText())) {
             var recommendation = (Recommendation) buttonTextReplyTable.get(message.getText());
 
-            var formulateRecommendation = recommendation.formOfRecommendation();
+            var formulateRecommendation = recommendation.formOfRecommendation(chatId);
             sendMsgWithRecommendation(message, formulateRecommendation);
         } else if (message.hasText()) {
             var messageText = message.getText();
-            sendMsg(message, getAnswerToCommand(messageText, message));
+            sendMsg(message, getAnswerToCommand(messageText, message, chatId));
         }
     }
 
 
-    public ParserOutput getAnswerToCommand(String messageText, Message message) {
+    public ParserOutput getAnswerToCommand(String messageText, Message message, Long chatId) {
         String answer;
 
         var commandTable = CommandTable.getTable();
@@ -152,9 +157,9 @@ public class Bot extends TelegramLongPollingBot {
 
             var recommendation = answerItem.Recommendation;
 
-            Results.TEXT = answerItem.TextResult;
-            Results.ICON = answerItem.Icon;
-            Results.PARSER_RESULT = answerItem.parserResult;
+            Results.UsersInformation.get(chatId).TEXT = answerItem.TextResult;
+            Results.UsersInformation.get(chatId).ICON = answerItem.Icon;
+            Results.UsersInformation.get(chatId).PARSER_RESULT = answerItem.parserResult;
 
             if (answerItem.Icon != null) {
                 sendPhoto(answerItem.Icon, message);
@@ -204,9 +209,10 @@ public class Bot extends TelegramLongPollingBot {
         }
     }
 
-    private void sendPhotoAsReply(Message message, String iconURL, ImageReply imageReply){
+    private void sendPhotoAsReply(Message message, String iconURL, ImageReply imageReply, Long chatId){
         try {
-            var replyImageBytes = imageReply.getReply(iconURL,Results.LON, Results.LAT);
+            var replyImageBytes = imageReply
+                    .getReply(iconURL,Results.UsersInformation.get(chatId).LON, Results.UsersInformation.get(chatId).LAT);
             SendPhoto sender = new SendPhoto();
             sender.setChatId(message.getChatId().toString());
             sender.setNewPhoto("ReplyPhoto", new ByteArrayInputStream(replyImageBytes));
@@ -305,12 +311,24 @@ public class Bot extends TelegramLongPollingBot {
 
 
     public static class Results {
+        public static HashMap<Long, UserData> UsersInformation;
+        /*
         public static String TEXT;
         public static String ICON;
         public static JsonParserResult PARSER_RESULT;
 
         public static double LAT;
         public static double LON;
+         */
+    }
+
+    public class UserData{
+        public String TEXT;
+        public String ICON;
+        public JsonParserResult PARSER_RESULT;
+
+        public double LAT;
+        public double LON;
     }
 
 }
