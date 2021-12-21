@@ -224,7 +224,6 @@ public class Bot extends TelegramLongPollingBot {
         if (lon == 0.0 || lat == 0.0)
             return;
         try {
-
             var replyImageBytes = imageReply
                     .getReply(iconURL,lon, lat);
             SendPhoto sender = new SendPhoto();
