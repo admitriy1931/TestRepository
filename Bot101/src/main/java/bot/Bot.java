@@ -241,8 +241,10 @@ public class Bot extends TelegramLongPollingBot {
     private void sendPhotoAsReply(Message message, String iconURL, ImageReply imageReply, Long chatId){
         var lon = Results.UsersInformation.get(chatId).LON;
         var lat = Results.UsersInformation.get(chatId).LAT;
-        if (lon == 0.0 || lat == 0.0)
-            return;
+        if (lon == 0.0 || lat == 0.0 || lat > 85.0 || lat < -85.0)
+            sendMsg(message,"Для отображения метео - карты введите значения из " +
+                    "интервала -85 до 85 для широты и -180 до 180 для долготы");
+            //return;
         try {
             var replyImageBytes = imageReply
                     .getReply(iconURL,lon, lat);
