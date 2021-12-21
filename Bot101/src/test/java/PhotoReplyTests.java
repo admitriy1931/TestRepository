@@ -17,15 +17,15 @@ public class PhotoReplyTests {
         FileReader fr = new FileReader(file);
         BufferedReader reader = new BufferedReader(fr);
         String line = reader.readLine();
-        var list = new ArrayList<>(List.of(line.split(",")));
+        var list = new ArrayList<>(List.of(line.split(" ,")));
         var arrayList = new ArrayList<String>();
         for (var e:actual
              ) {
             String stringLine = (String.valueOf(e));
             arrayList.add(stringLine);
         }
-        Collections.sort(list);
-        Collections.sort(arrayList);
+        //Collections.sort(list);
+        //Collections.sort(arrayList);
         assertEquals(list,arrayList);
     }
 }
