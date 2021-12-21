@@ -30,8 +30,8 @@ public class Converter {
             response.getEntity().writeTo(byteStream);
             byte[] bytes = byteStream.toByteArray();
 
-            FileOutputStream outputFile = new FileOutputStream("C:\\GitHub\\alfa.TXT");
-            outputFile.write(bytes, 0, bytes.length);
+            //FileOutputStream outputFile = new FileOutputStream("C:\\GitHub\\alfa.TXT");
+            //outputFile.write(bytes, 0, bytes.length);
 
             return new ByteArrayInputStream(bytes);
         } catch (IOException e) {
