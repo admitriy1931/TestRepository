@@ -78,12 +78,17 @@ public class Bot extends TelegramLongPollingBot {
 
             Results.UsersInformation.get(chatId).LAT = lat;
             Results.UsersInformation.get(chatId).LON = lon;
+            String commandResult = null;
+            ParserOutput parserResult = null;
+            try{
+                parserResult =
+                        new WeatherCordCommand().returnAnswerToLocation(lat.toString(), lon.toString());
+                commandResult = parserResult.stringOutput;
 
 
-
-            var parserResult =
-                    new WeatherCordCommand().returnAnswerToLocation(lat.toString(), lon.toString());
-            var commandResult = parserResult.stringOutput;
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
 
             var splitAnswer = commandResult.split(System.lineSeparator());
             var icon = parserResult.parserResult.icon;
@@ -146,10 +151,21 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private void TryGetCoordinates(String[] splitText, Long chatId) {
+
+
         if (Objects.equals(splitText[0], "/weatherCord") && splitText.length == 3)
         {
-            Results.UsersInformation.get(chatId).LAT = Double.parseDouble(splitText[1]);
-            Results.UsersInformation.get(chatId).LON = Double.parseDouble(splitText[2]);
+            Double doubleParseDoubleLat = Double.parseDouble(splitText[1]);
+            Double doubleParseDoubleLon = Double.parseDouble(splitText[2]);
+            System.out.println(doubleParseDoubleLat);
+            System.out.println(doubleParseDoubleLon);
+            if (doubleParseDoubleLat < -90 || doubleParseDoubleLat > 90 ||
+                    doubleParseDoubleLon > 180 || doubleParseDoubleLon < -180){
+                throw new IllegalArgumentException("Не валидные координаты");
+
+            }
+            Results.UsersInformation.get(chatId).LAT = doubleParseDoubleLat;
+            Results.UsersInformation.get(chatId).LON = doubleParseDoubleLon;
         }
     }
 
@@ -159,8 +175,12 @@ public class Bot extends TelegramLongPollingBot {
         var commandTable = CommandTable.getTable();
         var splitText = messageText.split(" ");
         if (commandTable.containsKey(splitText[0])) {
-
-            TryGetCoordinates(splitText, chatId);
+            try {
+                TryGetCoordinates(splitText, chatId);
+            }
+            catch (Exception e) {
+                sendMsg(message,e.getMessage());
+            }
 
             var answerItem = CommandTable.getItem(commandTable, messageText);
 

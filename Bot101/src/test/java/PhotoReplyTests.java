@@ -21,8 +21,8 @@ public class PhotoReplyTests {
         var arrayList = new ArrayList<String>();
         for (var e:actual
              ) {
-            String l = (String.valueOf(e));
-            arrayList.add(l);
+            String stringLine = (String.valueOf(e));
+            arrayList.add(stringLine);
         }
         Collections.sort(list);
         Collections.sort(arrayList);

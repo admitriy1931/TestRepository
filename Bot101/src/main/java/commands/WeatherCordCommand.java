@@ -5,6 +5,8 @@ import org.json.JSONObject;
 public class WeatherCordCommand implements BotCommand {
     @Override
     public ParserOutput returnAnswer(String input) {
+        //checkCorrectCord(input.split(" ")[1],
+                //input.split(" ")[2]);
         return printAboutWeather(input.split(" ")[1],
                 input.split(" ")[2]);
     }
