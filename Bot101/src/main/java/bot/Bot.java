@@ -219,9 +219,14 @@ public class Bot extends TelegramLongPollingBot {
     }
 
     private void sendPhotoAsReply(Message message, String iconURL, ImageReply imageReply, Long chatId){
+        var lon = Results.UsersInformation.get(chatId).LON;
+        var lat = Results.UsersInformation.get(chatId).LAT;
+        if (lon == 0.0 || lat == 0.0)
+            return;
         try {
+
             var replyImageBytes = imageReply
-                    .getReply(iconURL,Results.UsersInformation.get(chatId).LON, Results.UsersInformation.get(chatId).LAT);
+                    .getReply(iconURL,lon, lat);
             SendPhoto sender = new SendPhoto();
             sender.setChatId(message.getChatId().toString());
             sender.setNewPhoto("ReplyPhoto", new ByteArrayInputStream(replyImageBytes));
